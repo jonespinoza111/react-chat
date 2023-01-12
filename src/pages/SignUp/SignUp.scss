@@ -1,0 +1,71 @@
+@import "../../sassStyles/global";
+
+.container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    min-height: 100vh;
+    height: auto;
+    @include medium-screen {
+        display: flex;
+        flex-direction: column;
+    }
+    .left-side {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 50%;
+        background-color: white;
+        @include medium-screen {
+            width: 100%;
+            padding: 4em 0;
+        }
+        .form-button-container {
+            .previous-button {
+                background-color: #9593BB;
+                &:hover {
+                    background-color: #8eaeb9;
+                }
+            }
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            height: 20em;
+            width: 20em;
+            margin: 1em 0;
+            padding-left: 0.3em;
+            overflow-y: scroll;
+            scrollbar-width: thin;
+            .avatar-option {
+                border-radius: 50%;
+                width: 8em;
+                height: 8em;
+                margin:  0.5em 1em 0.5em 0;
+                cursor: pointer;
+                &:hover {
+                    scale: 1.1;
+                }
+            }
+            .current-choice {
+                border: 0.2em solid rgb(252, 241, 179);
+            }
+        }
+    }
+    .right-side {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 50%;
+        background-color: #161B1C;
+        @include medium-screen {
+            width: 100%;
+        }
+    }
+}
