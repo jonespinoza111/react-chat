@@ -10,7 +10,6 @@ export const SubForm1 = ({
     lastName,
     email
 }) => {
-    console.log("this is the currentSubForm", currentSubForm);
     if (currentSubForm !== 1) {
         return null;
     }
@@ -97,10 +96,10 @@ export const SubForm3 = ({ currentSubForm, avatarPicked, setAvatarPicked }) => {
                 return (
                     <img
                         key={optionNum}
-                        className={`avatar-option ${(avatarPicked === optionNum) && 'current-choice'}`}
+                        className={`avatar-option ${(avatarPicked === src) && 'current-choice'}`}
                         src={require(`../assets/${src}`)}
                         alt={alt}
-                        onClick={() => setAvatarPicked(optionNum)}
+                        onClick={() => setAvatarPicked(src)}
                     />
                 );
             })}

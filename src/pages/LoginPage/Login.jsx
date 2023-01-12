@@ -11,9 +11,37 @@ const Login = () => {
 
   useEffect(() => {
     if (isUserLoggedIn) {
-      navigate( "/home" );
+      navigate("/home");
     }
   }, [isUserLoggedIn, navigate]);
+
+  const submitLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("http://localhost:5000/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userData: {
+            username,
+            password,
+          },
+        }),
+      });
+      const body = await response.json();
+
+      if (body.success) {
+        localStorage.setItem("currentUser", body.authorization);
+        console.log("going home");
+        checkAuthUser();
+        navigate("/home");
+      }
+
+      console.log("This is body ", body);
+    } catch (err) {
+      console.log("There was an error loggin in", err);
+    }
+  };
 
   return (
     <div className="page login-page">
@@ -22,10 +50,7 @@ const Login = () => {
           <div className="login-form-container form-container">
             <h3>Welcome back</h3>
             <h4>Welcome back! Please enter your details.</h4>
-            <form
-              className="login-form"
-              onSubmit={() => console.log("submitting")}
-            >
+            <form className="login-form" onSubmit={submitLogin}>
               <div className="form-input-container">
                 <label htmlFor="username">Username</label>
                 <input
@@ -42,7 +67,7 @@ const Login = () => {
                   id="password"
                   className="form-input input"
                   placeholder=""
-                  type="text"
+                  // type="password"
                   required
                   onChange={(e) => setPassword(e.target.value)}
                 />

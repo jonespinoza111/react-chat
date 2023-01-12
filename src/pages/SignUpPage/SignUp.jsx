@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { SubForm1, SubForm2, SubForm3 } from '../../components/SubForms';
 import { AuthContext } from '../../context/AuthContext';
+import { avatarOptions } from '../../data/avatarOptions';
 import "./SignUp.scss";
 
 const SignUp = () => {
@@ -13,7 +14,7 @@ const SignUp = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const [avatarPicked, setAvatarPicked] = useState(1);
+  const [avatarPicked, setAvatarPicked] = useState(avatarOptions[0].src);
   const [currentSubForm, setCurrentSubForm] = useState(1);
 
   const navigate = useNavigate();
@@ -37,6 +38,58 @@ const SignUp = () => {
         }
   };
 
+  const submitSignup = async (e) => {
+    e.preventDefault();
+    try {
+        const response = await fetch("http://localhost:5000/users", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                userData: {
+                    profilePic: avatarPicked,
+                    firstName,
+                    lastName,
+                    username,
+                    email,
+                    password,
+                },
+            }),
+        });
+        const body = await response.json();
+
+        if (body.success) {
+            const responseLogin = await fetch(
+                "http://localhost:5000/login",
+                {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        userData: {
+                            username: body.user.username,
+                            password: body.user.password,
+                        },
+                    }),
+                }
+            );
+
+            const bodyLogin = await responseLogin.json();
+
+            if (bodyLogin.success) {
+                localStorage.setItem(
+                    "currentUser",
+                    bodyLogin.authorization
+                );
+                navigate("/home");
+            } else {
+                navigate("/login");
+            }
+        }
+        console.log("This is body ", body);
+    } catch (err) {
+        console.log("There was an error creating a new user");
+    }
+  };
+
 
   return (
     <div className="page signup-page">
@@ -49,7 +102,7 @@ const SignUp = () => {
                         {currentSubForm === 3 && "Choose an avatar"}
                     </h3>
                     <h4>Fill out the form.</h4>
-                    <form className="signup-form" onSubmit={() => console.log("submitting")}>
+                    <form className="signup-form" onSubmit={submitSignup}>
                         <SubForm1 
                             currentSubForm={currentSubForm}
                             setFirstName={setFirstName}

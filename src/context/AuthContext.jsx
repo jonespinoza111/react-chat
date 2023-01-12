@@ -17,11 +17,11 @@ const AuthProvider = ({ children }) => {
         }
     }, []);
 
-    const logout = (history, socket) => {
+    const logout = (navigate, socket) => {
         localStorage.removeItem("currentUser");
         socket.emit('offline', userInfo.uid);
         setIsUserLoggedIn(false);
-        history.push({ pathname: "/" });
+        navigate("/");
     };
     return (
         <AuthContext.Provider
