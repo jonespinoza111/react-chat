@@ -21,11 +21,10 @@ export const SubForm1 = ({
                 <input
                     id="firstname"
                     className="form-input input"
-                    placeholder='enter first name'
-                    // value={"firstname"}
+                    value={firstName}
                     type="text"
                     required
-                    // onChange={(e) => setFirstName(e.target.value)}
+                    onChange={(e) => setFirstName(e.target.value)}
                 />
             </div>
             <div className="form-input-container">
@@ -33,11 +32,10 @@ export const SubForm1 = ({
                 <input
                     id="lastname"
                     className="form-input input"
-                    placeholder='enter last name'
-                    // value={"lastname"}
+                    value={lastName}
                     type="text"
                     required
-                    // onChange={(e) => setLastName(e.target.value)}
+                    onChange={(e) => setLastName(e.target.value)}
                 />
             </div>
             <div className="form-input-container">
@@ -45,11 +43,10 @@ export const SubForm1 = ({
                 <input
                     id="email"
                     className="form-input input"
-                    placeholder='enter email'
-                    // value={"email"}
+                    value={email}
                     type="email"
                     required
-                    // onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e) => setEmail(e.target.value)}
                 />
             </div>
         </>
@@ -68,11 +65,10 @@ export const SubForm2 = ({ currentSubForm, setUsername, setPassword, username, p
                 <input
                     id="username"
                     className="form-input"
-                    // value={username}
-                    placeholder='create username'
+                    value={username}
                     type="text"
                     required
-                    // onChange={(e) => setUsername(e.target.value)}
+                    onChange={(e) => setUsername(e.target.value)}
                 />
             </div>
             <div className="form-input-container">
@@ -80,11 +76,10 @@ export const SubForm2 = ({ currentSubForm, setUsername, setPassword, username, p
                 <input
                     id="password"
                     className="form-input"
-                    // value={password}
-                    placeholder='create password'
+                    value={password}
                     type="password"
                     required
-                    // onChange={(e) => setPassword(e.target.value)}
+                    onChange={(e) => setPassword(e.target.value)}
                 />
             </div>
         </>
@@ -102,11 +97,10 @@ export const SubForm3 = ({ currentSubForm, avatarPicked, setAvatarPicked }) => {
                 return (
                     <img
                         key={optionNum}
-                        className={`avatar-option current-choice`}
-                        // className={`avatar-option ${(avatarPicked === optionNum) && 'current-choice'}`}
+                        className={`avatar-option ${(avatarPicked === optionNum) && 'current-choice'}`}
                         src={require(`../assets/${src}`)}
                         alt={alt}
-                        // onClick={() => setAvatarPicked(optionNum)}
+                        onClick={() => setAvatarPicked(optionNum)}
                     />
                 );
             })}

@@ -38,7 +38,7 @@
             height: 20em;
             width: 20em;
             margin: 1em 0;
-            padding-left: 0.3em;
+            padding-left: 0.5em;
             overflow-y: scroll;
             scrollbar-width: thin;
             .avatar-option {
@@ -52,7 +52,11 @@
                 }
             }
             .current-choice {
-                border: 0.2em solid rgb(252, 241, 179);
+                border: 0.5em solid rgb(252, 241, 179);
+                // border: 0.5em solid black;
+                &:hover {
+                    scale: 1;
+                }
             }
         }
     }
