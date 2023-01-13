@@ -1,0 +1,40 @@
+@import "../../sassStyles//global";
+
+.user-info-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    height: auto;
+    width: 100%;
+    color: white;
+    padding: 0.5em 0.3em;
+    .active {
+        background-color: #212629;
+    }
+    .user-info-box {
+        display: flex;
+        flex-grow: 100;
+    }
+    .user-info {
+        display: flex;
+        flex-grow: 100;
+        flex-direction: column;
+        justify-content: center;
+        margin-left: 0.8em;
+        text-transform: capitalize;
+        height: auto;
+        width: 50%;
+        @include small-screen {
+            margin-left: 0.5em;
+            width: 35%;
+        }
+    }
+}
+
+.hover {
+    cursor: pointer;
+    &:hover {
+        background-color: #212629;
+    }
+}

@@ -1,0 +1,61 @@
+@import "../../sassStyles//global";
+
+.dropdown-button {
+    position: relative;
+}
+
+.dropdown-container {
+    visibility: hidden;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    // padding: 0.2em 0.4em;
+    border-radius: 5%;
+    top: 45px;
+    left: -7em;
+    background-color: rgb(116, 219, 216);
+    color: black;
+    width: 10em;
+    z-index: 100;
+    @include small-screen {
+        left: -5em;
+        width: 7em;
+    }
+    a {
+        border-radius: 5%;
+        padding: 0.4em 0.5em;
+        cursor: pointer;
+        &:hover {
+            background-color: rgb(103, 193, 190);
+        }
+    }
+}
+
+.visible {
+    visibility: visible;
+}
+
+.options-button {
+    margin: 0;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    font-size: 1.3em;
+    margin: 0 1em 0 0;
+    color: white;
+    position: relative;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid rgb(85, 85, 85);
+    cursor: pointer;
+    margin-left: 0.8em;
+    &:hover {
+        background-color: rgb(59, 59, 59);
+    }
+    @include small-screen {
+        width: 35px;
+        height: 35px;
+    }
+}

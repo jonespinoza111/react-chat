@@ -1,3 +1,5 @@
+@import "../../sassStyles//global";
+
 .chat-sidebar {
     display: flex;
     flex-direction: column;
@@ -11,7 +13,16 @@
     // Firefox Scrollbar Styles
     scrollbar-width: thin;          /* "auto" or "thin" */
     scrollbar-color: #3B3E49 #25323f;  
-    padding: 1.5em 0.5em;
+    padding: 1em 0.5em;
+    .sidebar-container {
+        padding: 1em 0.6em;
+        @include small-screen {
+            padding: 0.5em 0;
+        }
+        .row-title {
+            margin-bottom: 1em;
+        }
+    }
     &::-webkit-scrollbar {
         width: 0.5em;             /* width of the entire scrollbar */
         border-radius: 0%;
@@ -27,57 +38,18 @@
     }
 
     h3 {
-        font-size: 1.2em;
+        font-size: 1em;
+        @include small-screen {
+            font-size: 0.8em;
+        }
     }
 
     h4 {
         font-size: 0.9em;
         font-weight: 300;
         color: rgba(194, 193, 193, 0.9);
-    }
-
-    .avatar-link {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin: 0;
-        width: 64px;
-    }
-
-    .user-info-container {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        height: auto;
-        width: 100%;
-        color: white;
-        padding: 0.5em 0.6em;
-        .user-info {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            margin-left: 0.8em;
-            text-transform: capitalize;
-            height: 64px;
-        }
-        .options-button {
-            margin: 0;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            font-size: 1.3em;
-            margin: 0 1em 0 0;
-            position: relative;
-            background-color: transparent;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border: 2px solid rgb(85, 85, 85);
-            cursor: pointer;
-            margin-left: 0.8em;
-            &:hover {
-                background-color: rgb(59, 59, 59);
-            }
+        @include small-screen {
+            font-size: 0.7em;
         }
     }
 
@@ -107,7 +79,6 @@
     }
 
     .online-container {
-        padding: 0.5em 0.6em;
         .online-users {
             width: 100%;
             // background-color: green;
@@ -133,7 +104,6 @@
     }
 
     .rooms-container {
-        padding: 0.5em 0.6em;
         height: auto;
         width: 100%;
         .all-rooms {
@@ -142,21 +112,20 @@
             flex-direction: column;
             justify-content: start;
             align-items: center;
-            height: 20em;
+            height: auto;
+            max-height: 20em;
             // background-color: blue;
             overflow-y: scroll;
             scrollbar-width: thin;          /* "auto" or "thin" */
             scrollbar-color: #3B3E49 #25323f; 
             .single-user {
-                padding: 1em 0;
+                padding: 0.7em 0;
             }
-        }
-    }
-
-
-    .online-container, .rooms-container {
-        h3 {
-            margin-bottom: 0.5em;
+            h4 {
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+            }
         }
     }
 }   

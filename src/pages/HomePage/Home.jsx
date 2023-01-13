@@ -7,9 +7,9 @@ import "./Home.scss";
 const Home = ({ isUserLoggedIn }) => {
     const { userInfo, checkAuthUser } = useContext(AuthContext);
 
-    // useEffect(() => {
-    //     checkAuthUser();
-    // }, [checkAuthUser])
+    useEffect(() => {
+        checkAuthUser();
+    }, []);
     return (
         <div className="page home-page">
             {/* <MainNavbar userInfo={userInfo ? userInfo : "..."} /> */}
@@ -19,8 +19,8 @@ const Home = ({ isUserLoggedIn }) => {
             </h1>
             <h2 className="user-id">{userInfo && userInfo.uid}</h2> */}
             <div className="chat-container">
-                <ChatSidebar userInfo={userInfo} />
-                <ChatMain />
+                <ChatSidebar userInfo={userInfo ? userInfo : ''} />
+                <ChatMain userInfo={userInfo ? userInfo : ''} />
                 {/* {params.chatId ? (
                     <ChatMain />
                 ) : (

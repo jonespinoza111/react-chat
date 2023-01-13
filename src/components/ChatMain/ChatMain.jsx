@@ -1,11 +1,15 @@
 import React from "react";
 import SingleMessage from "../SingleMessage/SingleMessage";
+import SingleUser from "../SingleUser/SingleUser";
 import "./ChatMain.scss";
 
 const ChatMain = ({ userInfo }) => {
   return (
     <div className="chat-main">
-      <div className="user-info-container">
+        <div className="main-container">
+            <SingleUser userInfo={userInfo} />
+        </div>
+      {/* <div className="user-info-container">
           <img
             width="64"
             height="64"
@@ -20,7 +24,7 @@ const ChatMain = ({ userInfo }) => {
           <h4>Typing...</h4>
         </div>
         <div className="options-button">&#xFE19;</div>
-      </div>
+      </div> */}
       <div className="chat-area">
         <SingleMessage 
             data={{ username: 'Jonathan', timestamp: '11:30pm'}}

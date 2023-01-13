@@ -1,0 +1,25 @@
+@import "../../sassStyles//global";
+
+.avatar-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    width: 50px;
+    height: 50px;
+    @include small-screen {
+        width: 40px;
+        height: 40px;
+    }
+    .user-avatar {
+        border-radius: 50%;
+        position: relative;
+        border: 2px solid silver;
+        height: 50px;
+        width: 50px;
+        @include small-screen {
+            height: 40px;
+            width: 40px;
+        }
+    }
+}
