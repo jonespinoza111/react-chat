@@ -1,6 +1,8 @@
 import React, { useContext, useEffect } from 'react'
+import ChatMain from '../../components/ChatMain/ChatMain';
 import ChatSidebar from '../../components/ChatSidebar/ChatSidebar';
 import { AuthContext } from '../../context/AuthContext';
+import "./Home.scss";
 
 const Home = ({ isUserLoggedIn }) => {
     const { userInfo, checkAuthUser } = useContext(AuthContext);
@@ -18,7 +20,7 @@ const Home = ({ isUserLoggedIn }) => {
             <h2 className="user-id">{userInfo && userInfo.uid}</h2> */}
             <div className="chat-container">
                 <ChatSidebar userInfo={userInfo} />
-
+                <ChatMain />
                 {/* {params.chatId ? (
                     <ChatMain />
                 ) : (
