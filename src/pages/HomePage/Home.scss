@@ -1,0 +1,10 @@
+.home-page {
+    display: flex;
+    flex-direction: row;
+    .chat-container {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        background-color: blue;
+    }
+}
