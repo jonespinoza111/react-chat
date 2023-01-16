@@ -8,6 +8,7 @@ import { AuthContext } from './context/AuthContext';
 import Login from './pages/LoginPage/Login';
 import SignUp from './pages/SignUpPage/SignUp';
 import Home from './pages/HomePage/Home';
+import ProfilePage from './pages/ProfilePage/ProfilePage';
 import ProtectedRoutes from './components/ProtectedRoutes';
 
 function App() {
@@ -37,6 +38,14 @@ function App() {
                 exact
                 path="/room/:chatId"
                 element={<Home />}
+            />
+          </Route>
+          <Route element={<ProtectedRoutes />}>
+            <Route 
+                isUserLoggedIn={isUserLoggedIn}
+                exact
+                path="/user/:userId"
+                element={<ProfilePage />}
             />
           </Route>
         </Routes>

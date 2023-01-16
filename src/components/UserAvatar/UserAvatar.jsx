@@ -2,10 +2,10 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import './UserAvatar.scss';
 
-const UserAvatar = ({ src = false, status }) => {
-
+const UserAvatar = ({ userId, src = false, status }) => {
+  let toLink = userId ? `/user/${userId}` : null;
   return (
-    <Link to="/home" className="avatar-link">
+    <Link to={toLink} onClick={(e) => e.stopPropagation()} className="avatar-link">
       <span
           className={`status-indicator ${
               (status === 'online') ? "online-status" : "offline-status"

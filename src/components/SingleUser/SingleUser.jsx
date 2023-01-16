@@ -60,7 +60,7 @@ const SingleUser = ({
   return (
     <div className={`user-info-container ${hover ? "hover" : ""}`}>
       <div className={`user-info-box`} onClick={user.uid ? null : startChat}>
-        <UserAvatar status={status} src={user.profilePic} />
+        <UserAvatar userId={userId} status={status} src={user.profilePic} />
         <div className="user-info">
           <h3>{user.username}</h3>
           <h4>{friendStatus}</h4>
