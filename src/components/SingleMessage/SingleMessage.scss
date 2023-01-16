@@ -37,6 +37,7 @@
         justify-content: center;
         align-items: flex-start;
         border-radius: 0.2em;
+        cursor: pointer;
         // color: white;
         // border-radius: 1.5em;
         // min-height: 1em;
@@ -75,6 +76,10 @@
     .other-message {
         background-color: rgb(116, 219, 216);
         // background-color: $mainColor;
+    }
+    .hide {
+        color: red;
+        display: none;
     }
 
 }

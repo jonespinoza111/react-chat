@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import "./SingleMessage.scss";
 
 const SingleMessage = ({ 
@@ -6,8 +6,10 @@ const SingleMessage = ({
     message,
     direction,
     attachments,
-    newMessenger
+    newMessenger,
+    isLastMessage
 }) => {
+    const [showTimeStamp, setShowTimeStamp] = useState(isLastMessage ? true : false);
   return (
     <div
         className={`single-message-container ${
@@ -26,7 +28,7 @@ const SingleMessage = ({
             </div>
         )}
         <div
-            className={`row ${
+            className={`message-text-container ${
                 direction === "left" ? "flex-start" : "flex-end"
             }`}
         >
@@ -36,13 +38,14 @@ const SingleMessage = ({
                         ? "own-message"
                         : "other-message"
                 }`}
+                onClick={() => setShowTimeStamp((prev) => !prev)}
             >
                 {/* <div className="attachments-container">
                     {renderAttachments()}
                 </div> */}
                 <h3 className="text">{message}</h3>
             </div>
-            <h3 className="timestamp">{data.timestamp}</h3>
+            <h3 className={`timestamp ${showTimeStamp ? '' : 'hide' }`} >{data.timestamp}</h3>
         </div>
     </div>
   )

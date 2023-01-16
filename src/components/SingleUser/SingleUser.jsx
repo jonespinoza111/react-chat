@@ -20,8 +20,10 @@ const SingleUser = ({
 
   console.log("big big big user info  ", user);
 
+  let userId = user.uid ? user.uid : user._id;
+
   useEffect(() => {
-    socket.emit("checkUserStatus", user._id, (userStatus) => {
+    socket.emit("checkUserStatus", userId, (userStatus) => {
       setStatus(userStatus);
     });
 
@@ -57,7 +59,7 @@ const SingleUser = ({
 
   return (
     <div className={`user-info-container ${hover ? "hover" : ""}`}>
-      <div className={`user-info-box`} onClick={startChat}>
+      <div className={`user-info-box`} onClick={user.uid ? null : startChat}>
         <UserAvatar status={status} src={user.profilePic} />
         <div className="user-info">
           <h3>{user.username}</h3>
