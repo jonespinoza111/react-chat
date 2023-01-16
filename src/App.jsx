@@ -25,11 +25,19 @@ function App() {
           <Route path="/signup" element={<SignUp />} exact />
           <Route element={<ProtectedRoutes />}>
             <Route
-                  isUserLoggedIn={isUserLoggedIn}
-                  exact
-                  path="/home"
-                  element={<Home />}
+                isUserLoggedIn={isUserLoggedIn}
+                exact
+                path="/home"
+                element={<Home />}
               />
+          </Route>
+          <Route element={<ProtectedRoutes />}>
+            <Route 
+                isUserLoggedIn={isUserLoggedIn}
+                exact
+                path="/room/:chatId"
+                element={<Home />}
+            />
           </Route>
         </Routes>
       </div>

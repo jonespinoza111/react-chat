@@ -1,10 +1,20 @@
 .home-page {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    height: 100vh;
     .chat-container {
         width: 100%;
+        height: 90vh;
         display: flex;
         flex-direction: row;
         background-color: blue;
+    }
+    .default-chat-space {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 100;
+        height: 100%;
+        color: white;
+        background-color: #171B1D;
     }
 }

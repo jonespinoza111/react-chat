@@ -9,15 +9,18 @@
     position: absolute;
     display: flex;
     flex-direction: column;
-    // padding: 0.2em 0.4em;
     border-radius: 5%;
     top: 45px;
-    left: -7em;
-    background-color: rgb(116, 219, 216);
-    color: black;
-    width: 10em;
-    z-index: 100;
+    left: -9em;
+    background-color: rgba(77, 77, 77, 1);
+    // color: rgb(116, 219, 216);
+    color: white;
+    width: 12em;
+    z-index: 120;
+    // box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     @include small-screen {
+        top: 35px;
         left: -5em;
         width: 7em;
     }
@@ -26,7 +29,12 @@
         padding: 0.4em 0.5em;
         cursor: pointer;
         &:hover {
-            background-color: rgb(103, 193, 190);
+            // background-color: rgb(103, 193, 190);
+            background-color: rgb(91, 91, 91);
+
+        }
+        @include small-screen {
+            font-size: 0.8em;
         }
     }
 }

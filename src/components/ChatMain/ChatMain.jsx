@@ -1,63 +1,101 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
+import { SocketContext } from "../../context/SocketContext";
+import { timeFormatter } from "../../helper/TimeFormatter";
 import SingleMessage from "../SingleMessage/SingleMessage";
 import SingleUser from "../SingleUser/SingleUser";
 import "./ChatMain.scss";
 
-const ChatMain = ({ userInfo }) => {
+const ChatMain = () => {
+  const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState([]);
+  const [chatInfo, setChatInfo] = useState(null);
+
+  let { socket } = useContext(SocketContext);
+  const { userInfo } = useContext(AuthContext);
+  const { chatId } = useParams();
+
+  useEffect(() => {
+    socket.emit("getMessages", chatId, (messages) => setMessages(messages));
+
+    socket.emit("getChatRoomInfo", chatId, (info) => {
+        setChatInfo(info);
+    });
+  }, [socket, chatId]);
+
+  useEffect(() => {
+      if (socket) {
+          console.log("this is the socket being used", socket);
+      }
+      socket.on("newMessage", (message) => {
+          if (message.chatRoomId === chatId) {
+              setMessages([...messages, message]);
+          }
+      });
+  }, [socket, messages, chatId]);
+
+  const sendMessage = async (e) => {
+    e.preventDefault();
+    
+    if (message) {
+        socket.emit(
+            "sendMessage",
+            message,
+            chatId,
+            userInfo.uid,
+            null,
+            () => {
+                setMessage("");
+            }
+        );
+    }
+  };
+
   return (
     <div className="chat-main">
-        <div className="main-container">
-            <SingleUser userInfo={userInfo} />
-        </div>
-      {/* <div className="user-info-container">
-          <img
-            width="64"
-            height="64"
-            className="user-avatar"
-            src={require(`../../assets/${
-              userInfo && userInfo.profilePic || "option-1-futuristic-car.jpg"
-            }`)}
-            alt="user-avatar"
-          />
-        <div className="user-info">
-          <h3>Michael</h3>
-          <h4>Typing...</h4>
-        </div>
-        <div className="options-button">&#xFE19;</div>
-      </div> */}
+      <div className="main-container">
+        {userInfo && (
+          <SingleUser user={userInfo} />
+        )}
+      </div>
       <div className="chat-area">
-        <SingleMessage 
-            data={{ username: 'Jonathan', timestamp: '11:30pm'}}
-            message="I am doing great today! I want to go out to eat someday. How about we get some lunch at this new restaurant I have been wanting to go to. I'm free on Friday if your avaiable?"
-            direction="right"
-            newMessenger={false}
-        />
-        <SingleMessage 
-            data={{ username: 'Jacob', timestamp: '1:25pm'}}
-            message="I am doing great today! I want to go out to eat someday."
-            newMessenger={true}
-        />
-        <SingleMessage 
-            data={{ username: 'Jonathan', timestamp: '11:30pm'}}
-            message="I am doing great today! I want to go out to eat someday. How about we get some lunch at this new restaurant I have been wanting to go to. I'm free on Friday if your avaiable?"
-            // direction="left"
-            newMessenger={true}
-        />
-        <SingleMessage 
-            data={{ username: 'Jonathan', timestamp: '11:30pm'}}
-            message="I am doing great today! I want to go out to eat someday. How about we get some lunch at this new restaurant I have been wanting to go to. I'm free on Friday if your avaiable?"
-            // direction="left"
-            newMessenger={false}
-        />
-        <SingleMessage 
-            data={{ username: 'Jonathan', timestamp: '11:30pm'}}
-            message="I am doing great today! I want to go out to eat someday. How about we get some lunch at this new restaurant I have been wanting to go to. I'm free on Friday if your avaiable?"
-            // direction="left"
-            newMessenger={false}
-        />
+        {socket && messages && messages.map(({ _id, postedByUser, message, createdAt }, index) => {
+
+        const timeAgo = timeFormatter(createdAt);
+
+        let prevSender;
+        if (index > 0) {
+            prevSender = messages[index - 1].postedByUser.username;
+        } else {
+            prevSender = 'none'
+        }
+
+        let newMessenger = prevSender !== postedByUser.username || prevSender === 'none';
+
+          return (
+            <SingleMessage
+                key={_id}
+                data={{
+                    timestamp: timeAgo,
+                    username: postedByUser.username,
+                }}
+                message={message}
+                direction={'left'}
+                newMessenger={newMessenger}
+                // direction={(postedByUser._id === userInfo.uid) ? 'right' : 'left'}
+            />
+          )
+        })}
       </div>
       <div className="enter-message-container">
-        <input type="text" placeholder="Type a message ..." />
+        <input
+          type="text"
+          placeholder="Type a message ..."
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          onKeyDown={(e) => (e.key === "Enter" ? sendMessage(e) : null)}
+        />
       </div>
     </div>
   );

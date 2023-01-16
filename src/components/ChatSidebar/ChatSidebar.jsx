@@ -1,13 +1,37 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../context/AuthContext";
+import { SocketContext } from "../../context/SocketContext";
 import SingleUser from "../SingleUser/SingleUser";
 import UserAvatar from "../UserAvatar/UserAvatar";
 import "./ChatSidebar.scss";
 
-const ChatSidebar = ({ userInfo }) => {
+const ChatSidebar = () => {
+  const [onlineUsers, setOnlineUsers] = useState(null);
+  const [allUsers, setAllUsers] = useState(null);
+
+  const { socket } = useContext(SocketContext);
+  const { userInfo, userFriends, getUserFriends } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (userInfo) {
+      socket.emit("getOnlineUsers", userInfo.uid, (users) => {
+        setOnlineUsers(users);
+      });
+      socket.emit("getAllUsers", (users) => {
+        setAllUsers(users);
+        console.log('This is what all the usuers are doing here ', users);
+      });
+      getUserFriends(socket)
+    }
+  }, [userInfo, socket, getUserFriends]);
+  useEffect(() => {
+    console.log('I think these are the friends', userFriends);
+  }, [userFriends])
+
   return (
     <div className="chat-sidebar">
       <div className="sidebar-container">
-        <SingleUser userInfo={userInfo} />
+        {userInfo && <SingleUser user={userInfo} />}
       </div>
 
       <div className="search-container">
@@ -23,10 +47,10 @@ const ChatSidebar = ({ userInfo }) => {
       <div className="online-container sidebar-container">
         <h3 className="row-title">Online Now</h3>
         <div className="online-users">
-          {[0,1,2,3,4,5,6,7].map((el) => (
+          {[0, 1, 2, 3, 4, 5, 6, 7].map((el) => (
             <div key={el} className="online-user">
-              <UserAvatar src={userInfo.profilePic} />
-              <h4>{userInfo.username}</h4>
+              <UserAvatar src={userInfo && userInfo.profilePic} />
+              <h4>{userInfo && userInfo.username}</h4>
             </div>
           ))}
         </div>
@@ -35,21 +59,50 @@ const ChatSidebar = ({ userInfo }) => {
       <div className="rooms-container sidebar-container">
         <h3 className="row-title">Friends</h3>
         <div className="all-rooms">
-        {[0,1,2,3,4,5,6,7].map((el) => (
-          <SingleUser userInfo={userInfo} hover={true} />
-        ))}
-        </div>        
+          {userFriends &&
+            userFriends.length &&
+            userFriends
+              // .filter((user) => user.status === "accepted")
+              .map((user) => (
+                <SingleUser
+                  key={user._id}
+                  user={user.friend}
+                  hover={true}
+                  friendStatus={user.status}
+                  getFriends={getUserFriends}
+                />
+              ))}
+        </div>
       </div>
 
       <div className="rooms-container sidebar-container">
         <h3 className="row-title">Rooms</h3>
         <div className="all-rooms">
-          {[0,1,2,3,4,5,6,7].map((el) => (
-            <SingleUser userInfo={userInfo} hover={true} />
-          ))}
+          {allUsers &&
+            allUsers
+            .filter((user) => user._id !== userInfo.uid)
+            .sort((a, b) => {
+              if (a.username < b.username) {
+                  return -1;
+              }
+              if (a.username > b.username) {
+                  return 1;
+              }
+              return 0;
+            })
+            .map((user, index) => {
+              let friendStatus =
+                userFriends &&
+                userFriends.find(
+                    ({ friend }) => friend._id === user._id
+                );
+              friendStatus = friendStatus ? friendStatus : 'none';
+              return (
+                <SingleUser key={index} user={user} hover={true} friendStatus={friendStatus.status} getFriends={getUserFriends} />
+              )
+            })}
         </div>
       </div>
-      
     </div>
   );
 };

@@ -1,35 +1,31 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
+import { useParams } from 'react-router-dom';
 import ChatMain from '../../components/ChatMain/ChatMain';
 import ChatSidebar from '../../components/ChatSidebar/ChatSidebar';
+import Navbar from '../../components/Navbar/Navbar';
 import { AuthContext } from '../../context/AuthContext';
+import SocketProvider from '../../context/SocketContext';
 import "./Home.scss";
 
 const Home = ({ isUserLoggedIn }) => {
-    const { userInfo, checkAuthUser } = useContext(AuthContext);
-
-    useEffect(() => {
-        checkAuthUser();
-    }, []);
+    const { userInfo } = useContext(AuthContext);
+    const params = useParams();
     return (
-        <div className="page home-page">
-            {/* <MainNavbar userInfo={userInfo ? userInfo : "..."} /> */}
-            {/* {homeError && <h3 style={{ color: "red" }}>{homeError}</h3>} */}
-            {/* <h1 className="opener">
-                Find a friend to chat or join a room!
-            </h1>
-            <h2 className="user-id">{userInfo && userInfo.uid}</h2> */}
-            <div className="chat-container">
-                <ChatSidebar userInfo={userInfo ? userInfo : ''} />
-                <ChatMain userInfo={userInfo ? userInfo : ''} />
-                {/* {params.chatId ? (
-                    <ChatMain />
-                ) : (
-                    <div className="default-chat-space">
-                        <h3>Start a chat or create a room!</h3>
-                    </div>
-                )} */}
+        <SocketProvider uid={userInfo && userInfo.uid}>
+            <div className="page home-page">
+                <Navbar />
+                <div className="chat-container">
+                    <ChatSidebar userInfo={userInfo ? userInfo : ''} />
+                    {params.chatId ? (
+                        <ChatMain />
+                    ) : (
+                        <div className="default-chat-space">
+                            <h3>Start a chat or create a room!</h3>
+                        </div>
+                    )}
+                </div>
             </div>
-        </div>
+        </SocketProvider>
     )
 }
 
