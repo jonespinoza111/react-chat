@@ -4,6 +4,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { SocketContext } from "../../context/SocketContext";
 import { timeFormatter } from "../../helper/TimeFormatter";
 import SingleMessage from "../SingleMessage/SingleMessage";
+import SingleRoom from "../SingleRoom/SingleRoom";
 import SingleUser from "../SingleUser/SingleUser";
 import "./ChatMain.scss";
 
@@ -52,12 +53,18 @@ const ChatMain = () => {
     }
   };
 
+  const chatTopBar = () => {
+    let users = chatInfo.userIds.filter((user) => user._id !== userInfo.uid);
+    return (
+      <SingleUser user={users[0]} />
+    )
+  }
+
   return (
     <div className="chat-main">
       <div className="main-container">
-        {userInfo && (
-          <SingleUser user={userInfo} />
-        )}
+        {chatInfo && chatTopBar()}
+        {/* {chatInfo && <SingleRoom room={chatInfo} />} */}
       </div>
       <div className="chat-area">
         {socket && messages && messages.map(({ _id, postedByUser, message, createdAt }, index) => {
