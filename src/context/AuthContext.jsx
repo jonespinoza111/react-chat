@@ -20,6 +20,7 @@ const AuthProvider = ({ children }) => {
 
     const getUserFriends = useCallback(
         (socket) => {
+            console.log('socket ready set goooooooogo, ', socket);
             if (userInfo) {
                 socket.emit("getFriends", userInfo.uid, (friends) => {
                     setUserFriends(friends);
@@ -38,6 +39,7 @@ const AuthProvider = ({ children }) => {
         socket.emit('offline', userInfo.uid);
         setIsUserLoggedIn(false);
         navigate("/");
+        navigate(0);
     };
     return (
         <AuthContext.Provider

@@ -80,6 +80,7 @@ const SignUp = () => {
                     bodyLogin.authorization
                 );
                 navigate("/home");
+                navigate(0);
             } else {
                 navigate("/login");
             }

@@ -35,6 +35,7 @@ const Login = () => {
         console.log("going home");
         checkAuthUser();
         navigate("/home");
+        navigate(0);
       }
 
       console.log("This is body ", body);

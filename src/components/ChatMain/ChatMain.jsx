@@ -73,6 +73,9 @@ const ChatMain = () => {
 
         let newMessenger = prevSender !== postedByUser.username || prevSender === 'none';
 
+        console.log('messages what up yo ', messages[messages.length -1]);
+        let isLastMessage = messages[messages.length - 1]._id === _id;
+
           return (
             <SingleMessage
                 key={_id}
@@ -83,6 +86,7 @@ const ChatMain = () => {
                 message={message}
                 direction={'left'}
                 newMessenger={newMessenger}
+                isLastMessage={isLastMessage}
                 // direction={(postedByUser._id === userInfo.uid) ? 'right' : 'left'}
             />
           )

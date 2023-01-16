@@ -21,12 +21,13 @@ const ChatSidebar = () => {
         setAllUsers(users);
         console.log('This is what all the usuers are doing here ', users);
       });
+      socket.on("getUserFriends", () => {
+        console.log('getting tutto friends in chatSidebar ');
+        getUserFriends(socket);
+      })
       getUserFriends(socket)
     }
   }, [userInfo, socket, getUserFriends]);
-  useEffect(() => {
-    console.log('I think these are the friends', userFriends);
-  }, [userFriends])
 
   return (
     <div className="chat-sidebar">
@@ -47,7 +48,7 @@ const ChatSidebar = () => {
       <div className="online-container sidebar-container">
         <h3 className="row-title">Online Now</h3>
         <div className="online-users">
-          {[0, 1, 2, 3, 4, 5, 6, 7].map((el) => (
+          {onlineUsers && onlineUsers.map((el) => (
             <div key={el} className="online-user">
               <UserAvatar src={userInfo && userInfo.profilePic} />
               <h4>{userInfo && userInfo.username}</h4>
