@@ -78,7 +78,10 @@
         padding: 2em 0;
         overflow-y: scroll;
         scrollbar-width: thin;          /* "auto" or "thin" */
-        scrollbar-color: #3B3E49 #25323f;  
+        scrollbar-color: #3B3E49 #25323f; 
+        .is-typing-text {
+            padding: 0.4em 2em 0 2em;
+        } 
     }
 
     .enter-message-container {

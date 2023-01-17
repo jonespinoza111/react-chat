@@ -18,45 +18,83 @@ const ChatMain = () => {
   const { chatId } = useParams();
 
   useEffect(() => {
+    if (!socket) return;
     socket.emit("getMessages", chatId, (messages) => setMessages(messages));
 
     socket.emit("getChatRoomInfo", chatId, (info) => {
-        setChatInfo(info);
+      setChatInfo(info);
     });
   }, [socket, chatId]);
 
   useEffect(() => {
-      if (socket) {
-          console.log("this is the socket being used", socket);
+    if (!socket) return;
+    socket.on("newMessage", (message) => {
+      if (message.chatRoomId === chatId) {
+        setMessages([...messages, message]);
       }
-      socket.on("newMessage", (message) => {
-          if (message.chatRoomId === chatId) {
-              setMessages([...messages, message]);
-          }
-      });
+    });
   }, [socket, messages, chatId]);
 
   const sendMessage = async (e) => {
     e.preventDefault();
-    
+
     if (message) {
-        socket.emit(
-            "sendMessage",
-            message,
-            chatId,
-            userInfo.uid,
-            null,
-            () => {
-                setMessage("");
-            }
-        );
+      socket.emit("sendMessage", message, chatId, userInfo.uid, null, () => {
+        setMessage("");
+      });
     }
+  };
+
+  const [isTyping, setIsTyping] = useState(new Set());
+  const [typingTimeout, setTypingTimeout] = useState(null);
+
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.on("userTyping", (typerId) => {
+      let newSet = new Set(isTyping);
+
+      if (!isTyping.has(typerId)) {
+        console.log('am I already someone is typing here');
+        newSet.add(typerId)
+        setIsTyping(newSet);
+      }
+    });
+
+    socket.on("userStoppedTyping", (typerId) => {
+      let newSet = new Set(isTyping);
+
+      console.log('am I already stopped typing on here client side');
+      newSet.delete(typerId);
+      setIsTyping(newSet);
+    });
+
+  }, [socket, isTyping]);
+
+  const handleInput = (e) => {
+    setMessage(e.target.value);
+
+    socket.emit("typingStarted", chatId, userInfo.uid);
+
+    if (typingTimeout) clearTimeout(typingTimeout);
+
+    setTypingTimeout(
+      setTimeout(() => {
+        socket.emit("typingEnded", chatId, userInfo.uid);
+
+      }, 1500)
+    );
   };
 
   const chatTopBar = () => {
     let users = chatInfo.userIds.filter((user) => user._id !== userInfo.uid);
+    return <SingleUser user={users[0]} />;
+  };
+
+  const renderTyping = (typerId) => {
+    let userTyping = chatInfo.userIds.filter(user => user._id === typerId);
     return (
-      <SingleUser user={users[0]} />
+      <h3 className="is-typing-text">{userTyping[0].username} is typing ...</h3>
     )
   }
 
@@ -67,44 +105,47 @@ const ChatMain = () => {
         {/* {chatInfo && <SingleRoom room={chatInfo} />} */}
       </div>
       <div className="chat-area">
-        {socket && messages && messages.map(({ _id, postedByUser, message, createdAt }, index) => {
+        {socket &&
+          messages &&
+          messages.map(({ _id, postedByUser, message, createdAt }, index) => {
+            const timeAgo = timeFormatter(createdAt);
 
-        const timeAgo = timeFormatter(createdAt);
+            let prevSender;
+            if (index > 0) {
+              prevSender = messages[index - 1].postedByUser.username;
+            } else {
+              prevSender = "none";
+            }
 
-        let prevSender;
-        if (index > 0) {
-            prevSender = messages[index - 1].postedByUser.username;
-        } else {
-            prevSender = 'none'
-        }
+            let newMessenger =
+              prevSender !== postedByUser.username || prevSender === "none";
 
-        let newMessenger = prevSender !== postedByUser.username || prevSender === 'none';
+            console.log("messages what up yo ", messages[messages.length - 1]);
+            let isLastMessage = messages[messages.length - 1]._id === _id;
 
-        console.log('messages what up yo ', messages[messages.length -1]);
-        let isLastMessage = messages[messages.length - 1]._id === _id;
-
-          return (
-            <SingleMessage
+            return (
+              <SingleMessage
                 key={_id}
                 data={{
-                    timestamp: timeAgo,
-                    username: postedByUser.username,
+                  timestamp: timeAgo,
+                  username: postedByUser.username,
                 }}
                 message={message}
-                direction={'left'}
+                direction={"left"}
                 newMessenger={newMessenger}
                 isLastMessage={isLastMessage}
                 // direction={(postedByUser._id === userInfo.uid) ? 'right' : 'left'}
-            />
-          )
-        })}
+              />
+            );
+          })}
+        {isTyping && [...isTyping].map(typer => renderTyping(typer))}
       </div>
       <div className="enter-message-container">
         <input
           type="text"
           placeholder="Type a message ..."
           value={message}
-          onChange={(e) => setMessage(e.target.value)}
+          onChange={handleInput}
           onKeyDown={(e) => (e.key === "Enter" ? sendMessage(e) : null)}
         />
       </div>
