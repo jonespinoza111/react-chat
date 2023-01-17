@@ -69,6 +69,11 @@ const ChatMain = () => {
       setIsTyping(newSet);
     });
 
+    return () => {
+      socket.off("userTyping");
+      socket.off("userStoppedTyping");
+    };
+
   }, [socket, isTyping]);
 
   const handleInput = (e) => {
@@ -134,7 +139,6 @@ const ChatMain = () => {
                 direction={"left"}
                 newMessenger={newMessenger}
                 isLastMessage={isLastMessage}
-                // direction={(postedByUser._id === userInfo.uid) ? 'right' : 'left'}
               />
             );
           })}
