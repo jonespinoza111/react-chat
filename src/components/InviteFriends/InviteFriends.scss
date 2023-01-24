@@ -1,0 +1,39 @@
+.invite-friends {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 10em;
+    width: 100%;
+    background-color: #32353d;
+    padding: 1em 0.5em;
+}
+
+.friend-choice {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0 1em;
+    background-color: #daf3f5 !important;
+    color: black !important;
+    min-height: 2.5em;
+    width: 100%;
+    padding: 0.1em 1em;
+    margin: 0em !important;
+    border: 1px solid black;
+    label {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        padding-right: 1em;
+    }
+}
+
+.checkbox-input {
+    transform: scale(1.5);
+    cursor: pointer;
+}
+
+.none-text {
+    background-color: rgba(77, 77, 77, 0.9);
+    padding: 0.5em 0.6em;
+
+}

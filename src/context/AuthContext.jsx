@@ -7,6 +7,7 @@ const AuthProvider = ({ children }) => {
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
     const [userInfo, setUserInfo] = useState(null);
     const [userFriends, setUserFriends] = useState([]);
+    const [userRooms, setUserRooms] = useState(null);
 
     const checkAuthUser = useCallback(() => {
         const currentUser = localStorage.getItem("currentUser");
@@ -34,6 +35,18 @@ const AuthProvider = ({ children }) => {
         [userInfo]
     );
 
+    const getUserRooms = useCallback(
+        (socket) => {
+            if (userInfo) {
+                socket.emit('getRooms', userInfo.uid, (allRooms) => {
+                    setUserRooms(allRooms);
+                    console.log('all rooms in room container', allRooms);
+                });
+            }
+        }, 
+        [userInfo]
+    )
+
     const logout = (navigate, socket) => {
         localStorage.removeItem("currentUser");
         socket.emit('offline', userInfo.uid);
@@ -47,8 +60,10 @@ const AuthProvider = ({ children }) => {
                 isUserLoggedIn,
                 userInfo,
                 userFriends,
+                userRooms,
                 checkAuthUser,
                 getUserFriends,
+                getUserRooms,
                 logout,
             }}
         >
