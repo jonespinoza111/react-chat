@@ -1,11 +1,31 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext';
+import { SocketContext } from '../../context/SocketContext';
 import RoomDropdown from '../Dropdown/RoomDropdown';
 import "./SingleRoom.scss";
 
-const SingleRoom = ({ room, userInfo }) => {
+const SingleRoom = ({ room, userInfo, hover = false }) => {
+  const navigate = useNavigate();
+  const params = useParams();
+  const { socket } = useContext(SocketContext);
+  const { getUserRooms } = useContext(AuthContext);
+
+  const enterRoom = () => {
+    if (room._id) {
+        navigate(`/room/${room._id}`);
+    }
+  }
+
+  const deleteRoom = () => {
+    socket.emit('deleteChat', room._id, () => {
+        getUserRooms(socket);
+        navigate('/home');
+    }) 
+  }
   return (
-    <div className={`user-info-container hover`}>
-      <div className={`user-info-box`} onClick={() => console.log("entering room")}>
+    <div className={`user-info-container ${params.chatId === room._id && hover ? "selected" : ""} ${hover ? "hover" : ""}`}>
+      <div className={`user-info-box`} onClick={enterRoom}>
         {/* <UserAvatar /> */}
         <img
             className="room-icon"
@@ -32,7 +52,9 @@ const SingleRoom = ({ room, userInfo }) => {
         </h3>
         </div>
       </div>
-      <RoomDropdown />
+      {!hover && (
+        <RoomDropdown enterRoom={enterRoom} deleteRoom={deleteRoom} />
+      )}
     </div>
   )
 }

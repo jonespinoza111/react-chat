@@ -14,10 +14,29 @@
     scrollbar-width: thin;          /* "auto" or "thin" */
     scrollbar-color: #3B3E49 #25323f;  
     padding: 1em 0.5em;
+    @include small-screen {
+        min-width: 45%;
+    }
     .sidebar-container {
         padding: 1em 0.6em;
         @include small-screen {
             padding: 0.5em 0;
+        }
+        .row-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            @include small-screen {
+                flex-direction: column;
+                justify-content: center;
+                align-items: flex-start;
+            }
+            .add-room-button {
+                margin-bottom: 1em;
+                font-size: 0.9em;
+                // padding: 0;
+            }
         }
         .row-title {
             margin-bottom: 1em;

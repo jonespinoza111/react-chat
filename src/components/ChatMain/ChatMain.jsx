@@ -6,6 +6,7 @@ import { timeFormatter } from "../../helper/TimeFormatter";
 import SingleMessage from "../SingleMessage/SingleMessage";
 import SingleRoom from "../SingleRoom/SingleRoom";
 import SingleUser from "../SingleUser/SingleUser";
+import ScrollToBottom from 'react-scroll-to-bottom';
 import "./ChatMain.scss";
 
 const ChatMain = () => {
@@ -33,6 +34,10 @@ const ChatMain = () => {
         setMessages([...messages, message]);
       }
     });
+
+    return () => {
+      socket.off("newMessage");
+    };
   }, [socket, messages, chatId]);
 
   const sendMessage = async (e) => {
@@ -55,8 +60,8 @@ const ChatMain = () => {
       let newSet = new Set(isTyping);
 
       if (!isTyping.has(typerId)) {
-        console.log('am I already someone is typing here');
-        newSet.add(typerId)
+        console.log("am I already someone is typing here");
+        newSet.add(typerId);
         setIsTyping(newSet);
       }
     });
@@ -64,7 +69,7 @@ const ChatMain = () => {
     socket.on("userStoppedTyping", (typerId) => {
       let newSet = new Set(isTyping);
 
-      console.log('am I already stopped typing on here client side');
+      console.log("am I already stopped typing on here client side");
       newSet.delete(typerId);
       setIsTyping(newSet);
     });
@@ -73,7 +78,6 @@ const ChatMain = () => {
       socket.off("userTyping");
       socket.off("userStoppedTyping");
     };
-
   }, [socket, isTyping]);
 
   const handleInput = (e) => {
@@ -86,22 +90,21 @@ const ChatMain = () => {
     setTypingTimeout(
       setTimeout(() => {
         socket.emit("typingEnded", chatId, userInfo.uid);
-
       }, 1500)
     );
   };
 
   const chatTopBar = () => {
-    let users = chatInfo.userIds.filter((user) => user._id !== userInfo.uid);
-    return <SingleUser user={users[0]} />;
+    // let users = chatInfo.userIds.filter((user) => user._id !== userInfo.uid);
+    return <SingleRoom room={chatInfo} userInfo={userInfo} />;
   };
 
   const renderTyping = (typerId) => {
-    let userTyping = chatInfo.userIds.filter(user => user._id === typerId);
+    let userTyping = chatInfo.userIds.filter((user) => user._id === typerId);
     return (
       <h3 className="is-typing-text">{userTyping[0].username} is typing ...</h3>
-    )
-  }
+    );
+  };
 
   return (
     <div className="chat-main">
@@ -109,41 +112,44 @@ const ChatMain = () => {
         {chatInfo && chatTopBar()}
         {/* {chatInfo && <SingleRoom room={chatInfo} />} */}
       </div>
-      <div className="chat-area">
-        {socket &&
-          messages &&
-          messages.map(({ _id, postedByUser, message, createdAt }, index) => {
-            const timeAgo = timeFormatter(createdAt);
+      <ScrollToBottom className="chat-area">
+          {socket &&
+            messages &&
+            messages.map(({ _id, postedByUser, message, createdAt }, index) => {
+              const timeAgo = timeFormatter(createdAt);
 
-            let prevSender;
-            if (index > 0) {
-              prevSender = messages[index - 1].postedByUser.username;
-            } else {
-              prevSender = "none";
-            }
+              let prevSender;
+              if (index > 0) {
+                prevSender = messages[index - 1].postedByUser.username;
+              } else {
+                prevSender = "none";
+              }
 
-            let newMessenger =
-              prevSender !== postedByUser.username || prevSender === "none";
+              let newMessenger =
+                prevSender !== postedByUser.username || prevSender === "none";
 
-            console.log("messages what up yo ", messages[messages.length - 1]);
-            let isLastMessage = messages[messages.length - 1]._id === _id;
+              // console.log("messages what up yo ", messages[messages.length - 1]);
+              let isLastMessage = messages[messages.length - 1]._id === _id;
 
-            return (
-              <SingleMessage
-                key={_id}
-                data={{
-                  timestamp: timeAgo,
-                  username: postedByUser.username,
-                }}
-                message={message}
-                direction={"left"}
-                newMessenger={newMessenger}
-                isLastMessage={isLastMessage}
-              />
-            );
-          })}
-        {isTyping && [...isTyping].map(typer => renderTyping(typer))}
-      </div>
+              return (
+                <SingleMessage
+                  key={_id}
+                  data={{
+                    timestamp: timeAgo,
+                    username: postedByUser.username,
+                  }}
+                  message={message}
+                  direction={"left"}
+                  newMessenger={newMessenger}
+                  isLastMessage={isLastMessage}
+                />
+              );
+            })}
+          {isTyping &&
+            [...isTyping]
+              .filter((typer) => typer !== userInfo.uid)
+              .map((typer) => renderTyping(typer))}
+      </ScrollToBottom>
       <div className="enter-message-container">
         <input
           type="text"

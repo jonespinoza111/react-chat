@@ -7,7 +7,9 @@
     height: 100%;
     color: white;
     background-color: #171B1D;
-
+    @include small-screen {
+        width: 55%;
+    }
     .main-container {
         padding: 1em 0.6em;
         @include small-screen {
@@ -30,43 +32,6 @@
             font-size: 0.7em;
         }
     }
-    
-    // .user-info-container {
-    //     display: flex;
-    //     flex-direction: row;
-    //     align-items: center;
-    //     height: 15%;
-    //     width: 100%;
-    //     color: white;
-    //     padding: 2em 1.1em;
-    //     .user-info {
-    //         display: flex;
-    //         flex-direction: column;
-    //         justify-content: center;
-    //         margin-left: 0.8em;
-    //         text-transform: capitalize;
-    //         height: 64px;
-    //     }
-    //     .options-button {
-    //         margin: 0;
-    //         width: 45px;
-    //         height: 45px;
-    //         border-radius: 50%;
-    //         font-size: 1.3em;
-    //         margin: 0 1em 0 0;
-    //         position: relative;
-    //         background-color: transparent;
-    //         display: flex;
-    //         justify-content: center;
-    //         align-items: center;
-    //         border: 2px solid rgb(85, 85, 85);
-    //         cursor: pointer;
-    //         margin-left: 0.8em;
-    //         &:hover {
-    //             background-color: rgb(59, 59, 59);
-    //         }
-    //     }
-    // }
 
     .chat-area {
         background-color: rgba(10, 14, 15);
@@ -80,8 +45,14 @@
         scrollbar-width: thin;          /* "auto" or "thin" */
         scrollbar-color: #3B3E49 #25323f; 
         .is-typing-text {
-            padding: 0.4em 2em 0 2em;
+            display: flex;
+            align-items: center;
+            border-radius: 2%;
+            width: 20%;
+            margin: 0.5em 2em 0 2em;
+            padding: 0.2em 1em;
             color: rgb(187, 187, 187);
+            background-color: rgba(77, 77, 77, 0.9);
         } 
     }
 

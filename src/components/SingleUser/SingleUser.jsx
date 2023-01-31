@@ -32,13 +32,17 @@ const SingleUser = ({
         setStatus(userStatus);
       }
     });
-  }, [socket, setStatus, user._id]);
+
+    return () => {
+      socket.off("updateUserStatus");
+    };
+  }, [socket, setStatus, user._id, userId]);
 
   useEffect(() => {}, [status]);
 
   const startChat = () => {
     const userIds = [user._id, userInfo.uid];
-    socket.emit("createChat", userIds, userInfo.uid);
+    socket.emit("createChat", userIds, userInfo.uid, null, () => {});
     socket.on("chatRoomInfo", (chatRoom) => {
       console.log("this is the chatRoom sent back from server", chatRoom);
       if (chatRoom) {

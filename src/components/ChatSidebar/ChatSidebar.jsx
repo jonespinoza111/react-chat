@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import { ModalContext } from "../../context/ModalContext";
 import { SocketContext } from "../../context/SocketContext";
+import SingleRoom from "../SingleRoom/SingleRoom";
 import SingleUser from "../SingleUser/SingleUser";
 import UserAvatar from "../UserAvatar/UserAvatar";
 import "./ChatSidebar.scss";
@@ -10,7 +12,8 @@ const ChatSidebar = () => {
   const [allUsers, setAllUsers] = useState(null);
 
   const { socket } = useContext(SocketContext);
-  const { userInfo, userFriends, getUserFriends } = useContext(AuthContext);
+  const { userInfo, userFriends, userRooms, getUserFriends, getUserRooms } = useContext(AuthContext);
+  const { openModal } = useContext(ModalContext);
 
   useEffect(() => {
     if (userInfo) {
@@ -25,9 +28,14 @@ const ChatSidebar = () => {
         console.log('getting tutto friends in chatSidebar ');
         getUserFriends(socket);
       })
-      getUserFriends(socket)
+      getUserFriends(socket);
+      getUserRooms(socket);
+
+      return () => {
+        socket.off("getUserFriends");
+      };
     }
-  }, [userInfo, socket, getUserFriends]);
+  }, [userInfo, socket, getUserFriends, getUserRooms]);
 
   return (
     <div className="chat-sidebar">
@@ -72,12 +80,15 @@ const ChatSidebar = () => {
                   friendStatus={user.status}
                   getFriends={getUserFriends}
                 />
-              ))}
+          ))}
         </div>
       </div>
 
       <div className="rooms-container sidebar-container">
-        <h3 className="row-title">Rooms</h3>
+        <div className="row-container">
+          <h3 className="row-title">Rooms</h3>
+          <button className="add-room-button"  onClick={() => openModal("CreateRoomModal")}>Create Room</button>
+        </div>
         <div className="all-rooms">
           {allUsers &&
             allUsers
@@ -101,7 +112,10 @@ const ChatSidebar = () => {
               return (
                 <SingleUser key={index} user={user} hover={true} friendStatus={friendStatus.status} getFriends={getUserFriends} />
               )
-            })}
+          })}
+          {userInfo && userRooms && userRooms.map(room => (
+            <SingleRoom room={room} userInfo={userInfo} hover={true} />
+          ))}
         </div>
       </div>
     </div>
