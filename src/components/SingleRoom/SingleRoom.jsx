@@ -1,8 +1,9 @@
-import React, { useContext } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { AuthContext } from '../../context/AuthContext';
-import { SocketContext } from '../../context/SocketContext';
-import RoomDropdown from '../Dropdown/RoomDropdown';
+import React, { useContext } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
+import { SocketContext } from "../../context/SocketContext";
+import MemberDropdown from "../Dropdown/MemberDropdown";
+import RoomDropdown from "../Dropdown/RoomDropdown";
 import "./SingleRoom.scss";
 
 const SingleRoom = ({ room, userInfo, hover = false }) => {
@@ -13,50 +14,55 @@ const SingleRoom = ({ room, userInfo, hover = false }) => {
 
   const enterRoom = () => {
     if (room._id) {
-        navigate(`/room/${room._id}`);
+      navigate(`/room/${room._id}`);
     }
-  }
+  };
 
   const deleteRoom = () => {
-    socket.emit('deleteChat', room._id, () => {
-        getUserRooms(socket);
-        navigate('/home');
-    }) 
-  }
+    socket.emit("deleteChat", room._id, () => {
+      getUserRooms(socket);
+      navigate("/home");
+    });
+  };
   return (
-    <div className={`user-info-container ${params.chatId === room._id && hover ? "selected" : ""} ${hover ? "hover" : ""}`}>
+    <div
+      className={`user-info-container ${
+        params.chatId === room._id && hover ? "selected" : ""
+      } ${hover ? "hover" : ""}`}
+    >
       <div className={`user-info-box`} onClick={enterRoom}>
         {/* <UserAvatar /> */}
         <img
-            className="room-icon"
-            src="https://cdn-icons-png.flaticon.com/512/195/195461.png"
-            alt="room-avatar"
+          className="room-icon"
+          src="https://cdn-icons-png.flaticon.com/512/195/195461.png"
+          alt="room-avatar"
         />
         <div className="user-info">
           {/* <h3>{room.roomName}</h3> */}
           {/* <h4>Hello</h4> */}
           <h3>
             {room.roomName ? (
-                <span>{room.roomName}</span>
+              <span>{room.roomName}</span>
             ) : (
-                room.userIds.map((user) => {
-                    return (
-                        <span key={user._id} className="username-text">
-                            {user._id === userInfo.uid
-                                ? "You"
-                                : user.username}
-                        </span>
-                    );
-                })
+              room.userIds.map((user) => {
+                return (
+                  <span key={user._id} className="username-text">
+                    {user._id === userInfo.uid ? "You" : user.username}
+                  </span>
+                );
+              })
             )}
-        </h3>
+          </h3>
+          <h4>
+            {room.userIds.length}{" "}
+            {room.userIds.length <= 1 ? "member" : "members"}
+            {!hover && <MemberDropdown members={room.userIds} />}
+          </h4>
         </div>
       </div>
-      {!hover && (
-        <RoomDropdown enterRoom={enterRoom} deleteRoom={deleteRoom} />
-      )}
+      {!hover && <RoomDropdown enterRoom={enterRoom} deleteRoom={deleteRoom} />}
     </div>
-  )
-}
+  );
+};
 
 export default SingleRoom;

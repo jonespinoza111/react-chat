@@ -67,3 +67,43 @@
         height: 35px;
     }
 }
+
+
+.show-members-button {
+    position: relative;
+    .members-button {
+        margin: 0;
+        width: auto;
+        height: auto;
+        font-size: 0.8em;
+        margin: 0 1em 0 0;
+        padding: 0 0.4em;
+        color: white;
+        position: relative;
+        background-color: transparent;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        // border: none;
+        border: 2px solid rgb(71, 71, 71);
+        cursor: pointer;
+        margin-left: 0.8em;
+        &:hover {
+            background-color: rgb(59, 59, 59);
+        }
+        @include small-screen {
+            width: 35px;
+            height: 35px;
+        }
+    }
+    .dropdown-container {
+        top: 24px;
+        left: 0.5em;
+        font-size: 0.8em;
+        max-height: 80px;
+        height: auto;
+        overflow-y: scroll;
+        scrollbar-width: thin;          /* "auto" or "thin" */
+        scrollbar-color: #3B3E49 #25323f; 
+    }
+}
