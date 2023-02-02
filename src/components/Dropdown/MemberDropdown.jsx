@@ -13,7 +13,7 @@ const MemberDropdown = ({ members }) => {
                 role="menu"
             > 
                 {members.map((member, index) => (
-                    <a {...itemProps[index]} onClick={() => {}}>
+                    <a key={index} {...itemProps[index]} onClick={() => {}}>
                         {member.username}
                     </a>
                 ))}

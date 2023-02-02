@@ -25,6 +25,10 @@ const ChatMain = () => {
     socket.emit("getChatRoomInfo", chatId, (info) => {
       setChatInfo(info);
     });
+
+    socket.on("updatedChatRoomInfo", (info) => {
+      setChatInfo(info);
+    });
   }, [socket, chatId]);
 
   useEffect(() => {

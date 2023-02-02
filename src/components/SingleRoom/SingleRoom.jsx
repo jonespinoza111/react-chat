@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { SocketContext } from "../../context/SocketContext";
@@ -7,6 +7,7 @@ import RoomDropdown from "../Dropdown/RoomDropdown";
 import "./SingleRoom.scss";
 
 const SingleRoom = ({ room, userInfo, hover = false }) => {
+  console.log('my my my room info ', room);
   const navigate = useNavigate();
   const params = useParams();
   const { socket } = useContext(SocketContext);
@@ -24,6 +25,7 @@ const SingleRoom = ({ room, userInfo, hover = false }) => {
       navigate("/home");
     });
   };
+
   return (
     <div
       className={`user-info-container ${
@@ -60,7 +62,7 @@ const SingleRoom = ({ room, userInfo, hover = false }) => {
           </h4>
         </div>
       </div>
-      {!hover && <RoomDropdown enterRoom={enterRoom} deleteRoom={deleteRoom} />}
+      {!hover && <RoomDropdown enterRoom={enterRoom} deleteRoom={deleteRoom} roomInfo={room} />}
     </div>
   );
 };

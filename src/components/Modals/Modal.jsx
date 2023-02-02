@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { ModalContext } from '../../context/ModalContext';
+import AddUserModal from './AddUserModal';
 import CreateRoomModal from './CreateRoomModal';
 import './Modal.scss';
 
@@ -28,6 +29,7 @@ const Modal = () => {
                     <FontAwesomeIcon icon={faTimes} />
                 </div> */}
                 {(modalName === 'CreateRoomModal') && <CreateRoomModal />}
+                {(modalName === 'AddUserModal') && <AddUserModal roomInfo={modalProps} />}
             </div>
         </div>
     , el)

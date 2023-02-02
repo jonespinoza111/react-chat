@@ -114,7 +114,7 @@ const ChatSidebar = () => {
               )
           })}
           {userInfo && userRooms && userRooms.map(room => (
-            <SingleRoom room={room} userInfo={userInfo} hover={true} />
+            <SingleRoom key={room._id} room={room} userInfo={userInfo} hover={true} />
           ))}
         </div>
       </div>

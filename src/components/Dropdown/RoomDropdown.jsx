@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import useDropdownMenu from "react-accessible-dropdown-menu-hook";
+import { ModalContext } from '../../context/ModalContext';
 import "./Dropdown.scss";
 
 
-const RoomDropdown = ({ enterRoom, deleteRoom }) => {
+const RoomDropdown = ({ enterRoom, deleteRoom, roomInfo }) => {
   const { buttonProps, itemProps, isOpen, setIsOpen } = useDropdownMenu(2);
+  const { openModal } =  useContext(ModalContext);
   return (
     <div className="dropdown-button">
         <button className="options-button" {...buttonProps} onClick={() => setIsOpen((prev) => !prev)}>
@@ -16,7 +18,7 @@ const RoomDropdown = ({ enterRoom, deleteRoom }) => {
         >
             <a {...itemProps[0]} onClick={() => {
                 setIsOpen((prev) => !prev);
-                enterRoom();
+                openModal("AddUserModal", roomInfo)
             }}>
             Add User
             </a>
