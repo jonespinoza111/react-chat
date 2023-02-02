@@ -20,7 +20,8 @@ const SingleRoom = ({ room, userInfo, hover = false }) => {
   };
 
   const deleteRoom = () => {
-    socket.emit("deleteChat", room._id, () => {
+    console.log('deleting room now ', room._id);
+    socket.emit("deleteChat", room._id, userInfo.uid, () => {
       getUserRooms(socket);
       navigate("/home");
     });
@@ -62,7 +63,7 @@ const SingleRoom = ({ room, userInfo, hover = false }) => {
           </h4>
         </div>
       </div>
-      {!hover && <RoomDropdown enterRoom={enterRoom} deleteRoom={deleteRoom} roomInfo={room} />}
+      {!hover && <RoomDropdown deleteRoom={deleteRoom} roomInfo={room} isInitiator={room.chatInitiator === userInfo.uid} />}
     </div>
   );
 };

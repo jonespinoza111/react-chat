@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { SocketContext } from "../../context/SocketContext";
@@ -23,10 +23,12 @@ const ChatMain = () => {
     socket.emit("getMessages", chatId, (messages) => setMessages(messages));
 
     socket.emit("getChatRoomInfo", chatId, (info) => {
+      console.log('bop bop bop1 ', info);
       setChatInfo(info);
     });
 
     socket.on("updatedChatRoomInfo", (info) => {
+      console.log('bop bop bop2 ', info)
       setChatInfo(info);
     });
   }, [socket, chatId]);
@@ -99,7 +101,7 @@ const ChatMain = () => {
   };
 
   const chatTopBar = () => {
-    // let users = chatInfo.userIds.filter((user) => user._id !== userInfo.uid);
+    console.log('dippity doo dot');
     return <SingleRoom room={chatInfo} userInfo={userInfo} />;
   };
 

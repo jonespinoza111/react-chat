@@ -4,7 +4,7 @@ import { ModalContext } from '../../context/ModalContext';
 import "./Dropdown.scss";
 
 
-const RoomDropdown = ({ enterRoom, deleteRoom, roomInfo }) => {
+const RoomDropdown = ({ deleteRoom, roomInfo, isInitiator }) => {
   const { buttonProps, itemProps, isOpen, setIsOpen } = useDropdownMenu(2);
   const { openModal } =  useContext(ModalContext);
   return (
@@ -22,12 +22,14 @@ const RoomDropdown = ({ enterRoom, deleteRoom, roomInfo }) => {
             }}>
             Add User
             </a>
-            <a {...itemProps[1]} onClick={() => {
-                setIsOpen((prev) => !prev);
-                deleteRoom();
-            }}>
-            Delete Room
-            </a>
+            {isInitiator && (
+                <a {...itemProps[1]} onClick={() => {
+                    setIsOpen((prev) => !prev);
+                    deleteRoom();
+                }}>
+                Delete Room
+                </a>
+            )}
         </div>
     </div>
   )
