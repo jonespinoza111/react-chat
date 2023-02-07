@@ -31,6 +31,10 @@ const ChatMain = () => {
       console.log('bop bop bop2 ', info)
       setChatInfo(info);
     });
+
+    return () => {
+      socket.off("updatedChatRoomInfo");
+    };
   }, [socket, chatId]);
 
   useEffect(() => {

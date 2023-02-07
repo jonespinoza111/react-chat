@@ -12,7 +12,8 @@ const ChatSidebar = () => {
   const [allUsers, setAllUsers] = useState(null);
 
   const { socket } = useContext(SocketContext);
-  const { userInfo, userFriends, userRooms, getUserFriends, getUserRooms } = useContext(AuthContext);
+  const { userInfo, userFriends, userRooms, getUserFriends, getUserRooms } =
+    useContext(AuthContext);
   const { openModal } = useContext(ModalContext);
 
   useEffect(() => {
@@ -22,12 +23,12 @@ const ChatSidebar = () => {
       });
       socket.emit("getAllUsers", (users) => {
         setAllUsers(users);
-        console.log('This is what all the usuers are doing here ', users);
+        console.log("This is what all the usuers are doing here ", users);
       });
       socket.on("getUserFriends", () => {
-        console.log('getting tutto friends in chatSidebar ');
+        console.log("getting tutto friends in chatSidebar ");
         getUserFriends(socket);
-      })
+      });
       getUserFriends(socket);
       getUserRooms(socket);
 
@@ -56,12 +57,13 @@ const ChatSidebar = () => {
       <div className="online-container sidebar-container">
         <h3 className="row-title">Online Now</h3>
         <div className="online-users">
-          {onlineUsers && onlineUsers.map((el) => (
-            <div key={el} className="online-user">
-              <UserAvatar src={userInfo && userInfo.profilePic} />
-              <h4>{userInfo && userInfo.username}</h4>
-            </div>
-          ))}
+          {onlineUsers &&
+            onlineUsers.map((el) => (
+              <div key={el} className="online-user">
+                <UserAvatar src={userInfo && userInfo.profilePic} />
+                <h4>{userInfo && userInfo.username}</h4>
+              </div>
+            ))}
         </div>
       </div>
 
@@ -80,42 +82,84 @@ const ChatSidebar = () => {
                   friendStatus={user.status}
                   getFriends={getUserFriends}
                 />
-          ))}
+              ))}
+        </div>
+      </div>
+
+      <div className="rooms-container sidebar-container">
+        <h3 className="row-title">DMs</h3>
+        <div className="all-rooms">
+          {userInfo &&
+            userRooms &&
+            userRooms
+              .filter((room) => !room.roomName)
+              .map((room) => (
+                <SingleRoom
+                  key={room._id}
+                  room={room}
+                  userInfo={userInfo}
+                  hover={true}
+                />
+              ))}
         </div>
       </div>
 
       <div className="rooms-container sidebar-container">
         <div className="row-container">
           <h3 className="row-title">Rooms</h3>
-          <button className="add-room-button"  onClick={() => openModal("CreateRoomModal")}>Create Room</button>
+          <button
+            className="add-room-button"
+            onClick={() => openModal("CreateRoomModal")}
+          >
+            Create Room
+          </button>
         </div>
+        <div className="all-rooms">
+          {userInfo &&
+            userRooms &&
+            userRooms
+              .filter((room) => room.roomName)
+              .map((room) => (
+                <SingleRoom
+                  key={room._id}
+                  room={room}
+                  userInfo={userInfo}
+                  hover={true}
+                />
+              ))}
+        </div>
+      </div>
+
+      <div className="rooms-container sidebar-container">
+        <h3 className="row-title">All Users</h3>
         <div className="all-rooms">
           {allUsers &&
             allUsers
-            .filter((user) => user._id !== userInfo.uid)
-            .sort((a, b) => {
-              if (a.username < b.username) {
+              .filter((user) => user._id !== userInfo.uid)
+              .sort((a, b) => {
+                if (a.username < b.username) {
                   return -1;
-              }
-              if (a.username > b.username) {
+                }
+                if (a.username > b.username) {
                   return 1;
-              }
-              return 0;
-            })
-            .map((user, index) => {
-              let friendStatus =
-                userFriends &&
-                userFriends.find(
-                    ({ friend }) => friend._id === user._id
+                }
+                return 0;
+              })
+              .map((user, index) => {
+                let friendStatus =
+                  userFriends &&
+                  userFriends.find(({ friend }) => friend._id === user._id);
+                friendStatus = friendStatus ? friendStatus : "none";
+                return (
+                  <SingleUser
+                    key={index}
+                    user={user}
+                    hover={true}
+                    friendStatus={friendStatus.status}
+                    getFriends={getUserFriends}
+                  />
                 );
-              friendStatus = friendStatus ? friendStatus : 'none';
-              return (
-                <SingleUser key={index} user={user} hover={true} friendStatus={friendStatus.status} getFriends={getUserFriends} />
-              )
-          })}
-          {userInfo && userRooms && userRooms.map(room => (
-            <SingleRoom key={room._id} room={room} userInfo={userInfo} hover={true} />
-          ))}
+              })}
         </div>
       </div>
     </div>

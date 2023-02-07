@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { ModalContext } from "../../context/ModalContext";
 import { SocketContext } from "../../context/SocketContext";
@@ -7,16 +8,34 @@ import InviteFriends from "../InviteFriends/InviteFriends";
 const AddUserModal = ({ roomInfo }) => {
   const [selectedUsers, setSelectedUsers] = useState(new Set());
   const { socket } = useContext(SocketContext);
-  const { userFriends, getUserRooms } = useContext(AuthContext);
+  const { userInfo, userFriends, getUserRooms } = useContext(AuthContext);
   const { closeModal } = useContext(ModalContext);
+  const navigate = useNavigate();
 
   const addUsers = (e) => {
     e.preventDefault();
-    console.log("adding the users", selectedUsers);
-    socket.emit("addUsersToRoom", roomInfo._id, [...selectedUsers], () => {
-      getUserRooms(socket);
-      closeModal();
-    });
+    if (!roomInfo.roomName && roomInfo.userIds.length <= 2) {
+      let userIds = roomInfo.userIds.map((userId) => userId._id);
+      socket.emit(
+        "createChat",
+        [...userIds, ...selectedUsers],
+        userInfo.uid,
+        null,
+        (chatRoom) => {
+          getUserRooms(socket);
+          if (chatRoom) {
+            navigate(`/room/${chatRoom.chatRoomId}`);
+          }
+          closeModal();
+        }
+      );
+    } else {
+      console.log("adding the users", selectedUsers);
+      socket.emit("addUsersToRoom", roomInfo._id, [...selectedUsers], () => {
+        getUserRooms(socket);
+        closeModal();
+      });
+    }
   };
 
   const onSelectCheckBox = (friendId) => {

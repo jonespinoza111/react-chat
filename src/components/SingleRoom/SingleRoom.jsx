@@ -7,7 +7,7 @@ import RoomDropdown from "../Dropdown/RoomDropdown";
 import "./SingleRoom.scss";
 
 const SingleRoom = ({ room, userInfo, hover = false }) => {
-  console.log('my my my room info ', room);
+  // console.log("my my my room info ", room);
   const navigate = useNavigate();
   const params = useParams();
   const { socket } = useContext(SocketContext);
@@ -20,7 +20,7 @@ const SingleRoom = ({ room, userInfo, hover = false }) => {
   };
 
   const deleteRoom = () => {
-    console.log('deleting room now ', room._id);
+    console.log("deleting room now ", room._id);
     socket.emit("deleteChat", room._id, userInfo.uid, () => {
       getUserRooms(socket);
       navigate("/home");
@@ -41,19 +41,19 @@ const SingleRoom = ({ room, userInfo, hover = false }) => {
           alt="room-avatar"
         />
         <div className="user-info">
-          {/* <h3>{room.roomName}</h3> */}
-          {/* <h4>Hello</h4> */}
           <h3>
             {room.roomName ? (
               <span>{room.roomName}</span>
             ) : (
-              room.userIds.map((user) => {
-                return (
-                  <span key={user._id} className="username-text">
-                    {user._id === userInfo.uid ? "You" : user.username}
-                  </span>
-                );
-              })
+              room.userIds
+                .filter((user) => !(user._id === userInfo.uid))
+                .map((user) => {
+                  return (
+                    <span key={user._id} className="username-text">
+                      {user.username}
+                    </span>
+                  );
+                })
             )}
           </h3>
           <h4>
@@ -63,7 +63,13 @@ const SingleRoom = ({ room, userInfo, hover = false }) => {
           </h4>
         </div>
       </div>
-      {!hover && <RoomDropdown deleteRoom={deleteRoom} roomInfo={room} isInitiator={room.chatInitiator === userInfo.uid} />}
+      {!hover && (
+        <RoomDropdown
+          deleteRoom={deleteRoom}
+          roomInfo={room}
+          isInitiator={room.chatInitiator === userInfo.uid}
+        />
+      )}
     </div>
   );
 };

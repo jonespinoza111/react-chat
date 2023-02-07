@@ -18,7 +18,7 @@ const SingleUser = ({
   const { userInfo } = useContext(AuthContext);
   const [status, setStatus] = useState(null);
 
-  console.log("big big big user info  ", user);
+  // console.log("big big big user info  ", user);
 
   let userId = user.uid ? user.uid : user._id;
 
