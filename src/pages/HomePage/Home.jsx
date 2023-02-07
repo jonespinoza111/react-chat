@@ -24,7 +24,7 @@ const Home = ({ isUserLoggedIn }) => {
                             <ChatMain />
                         ) : (
                             <div className="default-chat-space">
-                                <h3>Start a chat or create a room!</h3>
+                                <h3 className='start-chat-message'>Start a chat or create a room!</h3>
                             </div>
                         )}
                     </div>
