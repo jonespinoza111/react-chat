@@ -3,16 +3,33 @@ import { useParams } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { SocketContext } from "../../context/SocketContext";
 import { timeFormatter } from "../../helper/TimeFormatter";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+    faImage,
+    faTimes,
+} from "@fortawesome/free-solid-svg-icons";
 import SingleMessage from "../SingleMessage/SingleMessage";
 import SingleRoom from "../SingleRoom/SingleRoom";
-import SingleUser from "../SingleUser/SingleUser";
 import ScrollToBottom from 'react-scroll-to-bottom';
+import ImageUploading from "react-images-uploading";
 import "./ChatMain.scss";
 
 const ChatMain = () => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [chatInfo, setChatInfo] = useState(null);
+
+  //adding images
+  const [images, setImages] = useState([]);
+
+  const maxNumber = 4;
+
+  const onChange = (imageList, addUpdateIndex) => {
+    console.log(imageList, addUpdateIndex);
+    setImages(imageList);
+  };
+  // adding images ends
+
 
   let { socket } = useContext(SocketContext);
   const { userInfo } = useContext(AuthContext);
@@ -168,6 +185,57 @@ const ChatMain = () => {
           onChange={handleInput}
           onKeyDown={(e) => (e.key === "Enter" ? sendMessage(e) : null)}
         />
+        <ImageUploading
+          multiple
+          value={images}
+          onChange={onChange}
+          maxNumber={maxNumber}
+          dataURLKey="data_url"
+      >
+          {({
+              imageList,
+              onImageUpload,
+              onImageRemoveAll,
+              onImageUpdate,
+              onImageRemove,
+              isDragging,
+              dragProps,
+          }) => (
+              <div className="upload__image-wrapper upload-image-container">
+                  <button
+                      style={
+                          isDragging
+                              ? { color: "red" }
+                              : undefined
+                      }
+                      onClick={onImageUpload}
+                      {...dragProps}
+                  >
+                      <FontAwesomeIcon icon={faImage} />
+                  </button>
+                  &nbsp;
+                  {images.map((image, index) => (
+                      <div key={index} className="image-item">
+                          <img
+                              src={image.data_url}
+                              alt=""
+                              width="60"
+                              height="60"
+                          />
+                          <button
+                              className="remove-image-button"
+                              onClick={() => onImageRemove(index)}
+                          >
+                              <FontAwesomeIcon
+                                  className="times-icon"
+                                  icon={faTimes}
+                              />
+                          </button>
+                      </div>
+                  ))}
+              </div>
+          )}
+      </ImageUploading>
       </div>
     </div>
   );
