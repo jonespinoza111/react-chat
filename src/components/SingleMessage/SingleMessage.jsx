@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { ModalContext } from '../../context/ModalContext';
 import "./SingleMessage.scss";
 
 const SingleMessage = ({ 
@@ -10,6 +11,27 @@ const SingleMessage = ({
     isLastMessage
 }) => {
     const [showTimeStamp, setShowTimeStamp] = useState(isLastMessage ? true : false);
+    const { openModal } = useContext(ModalContext);
+
+    const renderAttachments = () => {
+        if (attachments && attachments.imagePaths) {
+            return (
+                <div className="attachments-container">
+                    {attachments.imagePaths.map((imagePath) => (
+                        <img
+                            className="attachment-img"
+                            width={165}
+                            height={180}
+                            src={`http://localhost:5000${imagePath}`}
+                            alt="attachment from user"
+                            onClick={() => openModal("ViewImageModal", imagePath)}
+                        ></img>
+                    ))}
+                </div>
+            );
+        }
+    };
+
   return (
     <div
         className={`single-message-container ${
@@ -33,16 +55,12 @@ const SingleMessage = ({
             }`}
         >
             <div
-                className={`message-text ${
-                    data.username === "Lionel"
-                        ? "own-message"
-                        : "other-message"
-                }`}
+                className={`message-text`}
                 onClick={() => setShowTimeStamp((prev) => !prev)}
             >
-                {/* <div className="attachments-container">
+                <div className="attachments-container">
                     {renderAttachments()}
-                </div> */}
+                </div>
                 <h3 className="text">{message}</h3>
             </div>
             <h3 className={`timestamp ${showTimeStamp ? '' : 'hide' }`} >{data.timestamp}</h3>

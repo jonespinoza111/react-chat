@@ -4,13 +4,10 @@ import { AuthContext } from "../../context/AuthContext";
 import { SocketContext } from "../../context/SocketContext";
 import { timeFormatter } from "../../helper/TimeFormatter";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-    faImage,
-    faTimes,
-} from "@fortawesome/free-solid-svg-icons";
+import { faImage, faTimes } from "@fortawesome/free-solid-svg-icons";
 import SingleMessage from "../SingleMessage/SingleMessage";
 import SingleRoom from "../SingleRoom/SingleRoom";
-import ScrollToBottom from 'react-scroll-to-bottom';
+import ScrollToBottom from "react-scroll-to-bottom";
 import ImageUploading from "react-images-uploading";
 import "./ChatMain.scss";
 
@@ -30,7 +27,6 @@ const ChatMain = () => {
   };
   // adding images ends
 
-
   let { socket } = useContext(SocketContext);
   const { userInfo } = useContext(AuthContext);
   const { chatId } = useParams();
@@ -40,12 +36,12 @@ const ChatMain = () => {
     socket.emit("getMessages", chatId, (messages) => setMessages(messages));
 
     socket.emit("getChatRoomInfo", chatId, (info) => {
-      console.log('bop bop bop1 ', info);
+      console.log("bop bop bop1 ", info);
       setChatInfo(info);
     });
 
     socket.on("updatedChatRoomInfo", (info) => {
-      console.log('bop bop bop2 ', info)
+      console.log("bop bop bop2 ", info);
       setChatInfo(info);
     });
 
@@ -70,10 +66,49 @@ const ChatMain = () => {
   const sendMessage = async (e) => {
     e.preventDefault();
 
-    if (message) {
-      socket.emit("sendMessage", message, chatId, userInfo.uid, null, () => {
-        setMessage("");
-      });
+    let newImages = images.map((image) => image.file);
+    let formData = new FormData();
+    let attachments;
+
+
+    if (images && images.length > 0) {
+
+      for (let i = 0; i < newImages.length; i++) {
+          formData.append(`images`, newImages[i]);
+      }
+      console.log("these are the new images bro, ", newImages);
+
+      console.log("this is the new formData, ", formData.getAll("images"));
+
+
+      try {
+          const response = await fetch("http://localhost:5000/images", {
+              method: "POST",
+              // headers: { "Content-Type": "multipart/form-data" },
+              body: formData,
+          });
+          const body = await response.json();
+
+          attachments = { imagePaths: body.imagePaths };
+
+          console.log("This is body of images ", body);
+      } catch (err) {
+          console.log("There was an error processing the images", err);
+      }
+    }
+
+    if (message || images) {
+      socket.emit(
+        "sendMessage",
+        message,
+        chatId,
+        userInfo.uid,
+        attachments,
+        () => {
+          setMessage("");
+          setImages([]);
+        }
+      );
     }
   };
 
@@ -122,7 +157,7 @@ const ChatMain = () => {
   };
 
   const chatTopBar = () => {
-    console.log('dippity doo dot');
+    console.log("dippity doo dot");
     return <SingleRoom room={chatInfo} userInfo={userInfo} />;
   };
 
@@ -140,42 +175,42 @@ const ChatMain = () => {
         {/* {chatInfo && <SingleRoom room={chatInfo} />} */}
       </div>
       <ScrollToBottom className="chat-area">
-          {socket &&
-            messages &&
-            messages.map(({ _id, postedByUser, message, createdAt }, index) => {
-              const timeAgo = timeFormatter(createdAt);
+        {socket &&
+          messages &&
+          messages.map(({ _id, postedByUser, message, attachments, createdAt }, index) => {
+            const timeAgo = timeFormatter(createdAt);
 
-              let prevSender;
-              if (index > 0) {
-                prevSender = messages[index - 1].postedByUser.username;
-              } else {
-                prevSender = "none";
-              }
+            let prevSender;
+            if (index > 0) {
+              prevSender = messages[index - 1].postedByUser.username;
+            } else {
+              prevSender = "none";
+            }
 
-              let newMessenger =
-                prevSender !== postedByUser.username || prevSender === "none";
+            let newMessenger =
+              prevSender !== postedByUser.username || prevSender === "none";
 
-              // console.log("messages what up yo ", messages[messages.length - 1]);
-              let isLastMessage = messages[messages.length - 1]._id === _id;
+            let isLastMessage = messages[messages.length - 1]._id === _id;
 
-              return (
-                <SingleMessage
-                  key={_id}
-                  data={{
-                    timestamp: timeAgo,
-                    username: postedByUser.username,
-                  }}
-                  message={message}
-                  direction={"left"}
-                  newMessenger={newMessenger}
-                  isLastMessage={isLastMessage}
-                />
-              );
-            })}
-          {isTyping &&
-            [...isTyping]
-              .filter((typer) => typer !== userInfo.uid)
-              .map((typer) => renderTyping(typer))}
+            return (
+              <SingleMessage
+                key={_id}
+                data={{
+                  timestamp: timeAgo,
+                  username: postedByUser.username,
+                }}
+                message={message}
+                attachments={attachments}
+                direction={"left"}
+                newMessenger={newMessenger}
+                isLastMessage={isLastMessage}
+              />
+            );
+          })}
+        {isTyping &&
+          [...isTyping]
+            .filter((typer) => typer !== userInfo.uid)
+            .map((typer) => renderTyping(typer))}
       </ScrollToBottom>
       <div className="enter-message-container">
         <input
@@ -191,51 +226,39 @@ const ChatMain = () => {
           onChange={onChange}
           maxNumber={maxNumber}
           dataURLKey="data_url"
-      >
+        >
           {({
-              imageList,
-              onImageUpload,
-              onImageRemoveAll,
-              onImageUpdate,
-              onImageRemove,
-              isDragging,
-              dragProps,
+            imageList,
+            onImageUpload,
+            onImageRemoveAll,
+            onImageUpdate,
+            onImageRemove,
+            isDragging,
+            dragProps,
           }) => (
-              <div className="upload__image-wrapper upload-image-container">
+            <div className="upload__image-wrapper upload-image-container">
+              <button
+                style={isDragging ? { color: "red" } : undefined}
+                onClick={onImageUpload}
+                {...dragProps}
+              >
+                <FontAwesomeIcon icon={faImage} />
+              </button>
+              &nbsp;
+              {images.map((image, index) => (
+                <div key={index} className="image-item">
+                  <img src={image.data_url} alt="" width="60" height="60" />
                   <button
-                      style={
-                          isDragging
-                              ? { color: "red" }
-                              : undefined
-                      }
-                      onClick={onImageUpload}
-                      {...dragProps}
+                    className="remove-image-button"
+                    onClick={() => onImageRemove(index)}
                   >
-                      <FontAwesomeIcon icon={faImage} />
+                    <FontAwesomeIcon className="times-icon" icon={faTimes} />
                   </button>
-                  &nbsp;
-                  {images.map((image, index) => (
-                      <div key={index} className="image-item">
-                          <img
-                              src={image.data_url}
-                              alt=""
-                              width="60"
-                              height="60"
-                          />
-                          <button
-                              className="remove-image-button"
-                              onClick={() => onImageRemove(index)}
-                          >
-                              <FontAwesomeIcon
-                                  className="times-icon"
-                                  icon={faTimes}
-                              />
-                          </button>
-                      </div>
-                  ))}
-              </div>
+                </div>
+              ))}
+            </div>
           )}
-      </ImageUploading>
+        </ImageUploading>
       </div>
     </div>
   );
