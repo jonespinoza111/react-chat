@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { SocketContext } from "../../context/SocketContext";
@@ -34,12 +34,19 @@ const SingleRoom = ({ room, userInfo, hover = false }) => {
       } ${hover ? "hover" : ""}`}
     >
       <div className={`user-info-box`} onClick={enterRoom}>
-        {/* <UserAvatar /> */}
-        <img
-          className="room-icon"
-          src="https://cdn-icons-png.flaticon.com/512/195/195461.png"
-          alt="room-avatar"
+        {room.roomName ? (
+          <img
+            className="room-icon"
+            src="https://cdn-icons-png.flaticon.com/512/195/195461.png"
+            alt="room-icon"
+          />
+        ) : (
+          <img
+          className="dm-icon"
+          src={require("../../assets/message.png")}
+          alt="dm-icon"
         />
+        )}
         <div className="user-info">
           <h3>
             {room.roomName ? (

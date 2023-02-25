@@ -2,4 +2,80 @@
     display: flex;
     flex-direction: column;
     height: 100vh;
+    background-color: rgba(10, 14, 15);
+    color: white;
+
+    .heading {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: start;
+        height: auto;
+        width: 100%;
+        color: white;
+        padding: 0.5em 1em;
+        background-color: #212629;
+    }
+
+    .profile-details-form {
+        width: auto;
+        height: auto;
+        margin: 0 2em;
+        padding: 0 0 2em;
+        color: white;
+        font-size: 16px;
+        .options-container {
+            display: flex;
+            margin: 0.5em 0 1em 0;
+            .avatar-option {
+                border-radius: 50%;
+                width: 8em;
+                height: 8em;
+                margin:  0.5em 1em 0.5em 0;
+                cursor: pointer;
+                &:hover {
+                    scale: 1.1;
+                }
+            }
+            .current-choice {
+                border: 0.5em solid rgb(252, 241, 179);
+                // border: 0.5em solid black;
+                &:hover {
+                    scale: 1;
+                }
+            }
+        }
+        .details-input-container {
+            width: 55%;
+        }
+        .profile-details-form-button {
+            margin-top: 0.5em;
+            width: auto;
+        }
+    }
+    .form-container { 
+        max-width: 30%;
+        background-color: transparent;
+        margin-top: 2em;
+        .form-sub-title {
+            font-size: 1.2em;
+        }
+        .form-button {
+            background-color: #4b5c60;
+            border: 0;
+            padding: 0.3em 1em;
+            border-radius: 0.3em;
+            width: auto;
+            color: white;
+            margin-bottom: 0.4em;
+            cursor: pointer;
+            &:disabled {
+                background-color: #4b5c60;
+                color: rgb(145, 145, 145);
+            }
+            &:hover:not([disabled]) {
+                background-color: #313b3d;
+            }
+        }
+    }
 }

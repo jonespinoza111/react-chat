@@ -16,7 +16,7 @@ const Navbar = () => {
       </div>
       <ul className="navigation">
         <li className="parent">
-          <a className="link" href="#">
+          <a className="link" href="/home">
             Home
           </a>
         </li>
