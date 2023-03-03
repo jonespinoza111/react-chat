@@ -37,6 +37,15 @@
             font-size: 0.8em;
         }
     }
+
+    .profile-link {
+        color: white;
+        text-decoration: none;
+        margin: 0;        
+        &:visited {
+            color: white;
+        }
+    }   
 }
 
 .visible {

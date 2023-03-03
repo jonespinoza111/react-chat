@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import useDropdownMenu from "react-accessible-dropdown-menu-hook";
+import { Link } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext';
 import "./Dropdown.scss";
 
 const MainDropdown = () => {
+  const { userInfo } = useContext(AuthContext);
   const { buttonProps, itemProps, isOpen, setIsOpen } = useDropdownMenu(2);
   return (
     <div className="dropdown-button">
@@ -13,9 +16,11 @@ const MainDropdown = () => {
             className={`dropdown-container ${isOpen ? "visible" : ""}`}
             role="menu"
         >
-            <a {...itemProps[0]} onClick={() => console.log('Going to profile page')}>
-            Profile
-            </a>
+          {userInfo && (
+            <Link className='profile-link' to={`/user/${userInfo.uid}`} {...itemProps[0]}>
+              Profile
+            </Link>
+          )}
             <a {...itemProps[1]} onClick={() => console.log('Deleting Account')}>
             Delete Account
             </a>

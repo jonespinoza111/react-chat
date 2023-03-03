@@ -1,10 +1,11 @@
+@import "../../sassStyles//global";
+
 .profile-page {
     display: flex;
     flex-direction: column;
     height: 100vh;
     background-color: rgba(10, 14, 15);
     color: white;
-
     .heading {
         display: flex;
         flex-direction: row;
@@ -76,6 +77,39 @@
             &:hover:not([disabled]) {
                 background-color: #313b3d;
             }
+        }
+    }
+    .view-profile-details {
+        .user-avatar {
+            border-radius: 50%;
+            position: relative;
+            height: 170px;
+            width: 170px;
+            @include small-screen {
+                height: 40px;
+                width: 40px;
+            }
+        }
+        .info-row {
+            width: 17em;
+            padding: 0.5em 2em;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: start;
+            text-transform: capitalize;
+        }
+        .info-row:first-child {
+            margin-top: 1em;
+        }
+        h2 {
+            font-size: 1.4em;
+            color: rgba(148, 148, 148, 0.9);
+        }
+        h3 {
+            font-size: 1.2em;
+            font-weight: 500;
+            color: rgb(255, 255, 255);
         }
     }
 }

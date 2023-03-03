@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext.jsx";
 import { avatarOptions } from "../../data/avatarOptions.js";
 
@@ -7,6 +8,7 @@ const ProfileDetails = ({ userInfo }) => {
   const [lastName, setLastName] = useState(userInfo.lastName);
   const [email, setEmail] = useState(userInfo.email);
   const { checkAuthUser } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   console.log('hello user info now', userInfo);
 
@@ -41,19 +43,12 @@ const ProfileDetails = ({ userInfo }) => {
         console.log("Your update was successful", body.authToken);
         localStorage.setItem("currentUser", body.authToken);
         checkAuthUser();
+        navigate(0);
       }
     } catch (err) {
       console.log("There was an error updating the user", err);
     }
   };
-
-  // useEffect(() => {
-  //     if (userInfo) {
-  //         setFirstName(userInfo.firstName);
-  //         setLastName(userInfo.lastName);
-  //         setEmail(userInfo.email);
-  //     }
-  // }, [userInfo]);
 
   return (
     <form className="profile-details-form form-container" onSubmit={submitChanges}>
