@@ -40,6 +40,7 @@ const SignUp = () => {
 
   const submitSignup = async (e) => {
     e.preventDefault();
+    let changedUsername = username.toLowerCase();
     try {
         const response = await fetch("http://localhost:5000/users", {
             method: "POST",
@@ -49,7 +50,7 @@ const SignUp = () => {
                     profilePic: avatarPicked,
                     firstName,
                     lastName,
-                    username,
+                    username: changedUsername,
                     email,
                     password,
                 },

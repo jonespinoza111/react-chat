@@ -17,7 +17,10 @@ const Dropdown = ({ startChat, addFriend, removeFriend, friendStatus }) => {
           Start Chat
         </a>
         {friendStatus === "requested" && (
-            <a {...itemProps[1]} onClick={() => "Removing friend request"}>
+            <a {...itemProps[1]} onClick={() => {
+              setIsOpen((prev) => !prev);
+              removeFriend();
+            }}>
               Remove Friend Request
             </a>
         )}

@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
+import { AuthContext } from "../../context/AuthContext";
+import { SocketContext } from "../../context/SocketContext";
 
 const ViewProfileDetails = ({ profileDetails }) => {
     const date = new Date(profileDetails.createdAt).toLocaleDateString("en-US", {
@@ -6,6 +8,66 @@ const ViewProfileDetails = ({ profileDetails }) => {
         day: "numeric",
         year: "numeric"
     });
+
+    const { getUserFriends, userFriends, userInfo } = useContext(AuthContext);
+    const { socket } = useContext(SocketContext);
+
+    console.log('sing userfriends ', userFriends);
+    let friendStatus = userFriends && userFriends.find(user => user._id === profileDetails._id)
+
+    const addFriend = () => {
+        socket.emit("addFriend", userInfo.uid, profileDetails._id, () => getUserFriends(socket));
+    };
+    
+    const removeFriend = () => {
+        socket.emit("removeFriend", userInfo.uid, profileDetails._id, () =>
+            getUserFriends(socket)
+        );
+    };
+
+    const friendStatusOutput = () => {
+        let returnValue;
+        if (friendStatus) {
+            switch(friendStatus.status) {
+                case "requested":
+                    returnValue = (
+                        <button onClick={removeFriend} className="friend-status-button">
+                            Remove Friend Request
+                        </button>
+                    )
+                    break;
+                case "pending":
+                    returnValue = (
+                        <button onClick={addFriend} className="friend-status-button">
+                            Accept Friend Request
+                        </button>
+                    )
+                    break;
+                case "accepted":
+                    returnValue = (
+                        <button onClick={removeFriend} className="friend-status-button">
+                            Remove Friend
+                        </button>
+                    )
+                    break;
+                default: 
+                    console.log('hello');
+            }
+
+        } else {
+            returnValue = (
+                <button onClick={addFriend} className="friend-status-button">
+                    Add Friend
+                </button>
+            )
+        }
+
+        return returnValue;
+    }
+
+    useEffect(() => {
+        getUserFriends(socket);
+    }, [getUserFriends, socket]);
      return (
         <div className="view-profile-details">
         <div className="info-row">
@@ -16,6 +78,9 @@ const ViewProfileDetails = ({ profileDetails }) => {
             }`)}
             alt="user-avatar"
             />
+        </div>
+        <div className="info-row">
+            {friendStatusOutput()}
         </div>
         <div className="info-row">
             <h2>Username:</h2>

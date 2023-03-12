@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { ModalContext } from "../../context/ModalContext";
 import { SocketContext } from "../../context/SocketContext";
+import SearchBar from "../SearchBar/SearchBar";
 import SingleRoom from "../SingleRoom/SingleRoom";
 import SingleUser from "../SingleUser/SingleUser";
 import UserAvatar from "../UserAvatar/UserAvatar";
@@ -45,13 +46,7 @@ const ChatSidebar = () => {
       </div>
 
       <div className="search-container">
-        <div className="search">
-          <input
-            type="text"
-            className="search-bar"
-            placeholder="Search or start a new chat..."
-          />
-        </div>
+        <SearchBar />
       </div>
 
       <div className="online-container sidebar-container">
@@ -93,6 +88,7 @@ const ChatSidebar = () => {
             userRooms &&
             userRooms
               .filter((room) => !room.roomName)
+              .filter((room) => room.userIds.length > 1)
               .map((room) => (
                 <SingleRoom
                   key={room._id}

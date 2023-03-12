@@ -111,5 +111,20 @@
             font-weight: 500;
             color: rgb(255, 255, 255);
         }
+
+        .friend-status-button {
+            border-style: none;
+            background-color: #8eaeb9;
+            color: black;
+            padding: 0.5em 1em;
+            min-width: 10em;
+            max-width: 15em;
+            width: auto;
+            cursor: pointer;
+            border-radius: 0.2em;
+            &:hover {
+                background-color: #78919a;
+            }
+        }
     }
 }

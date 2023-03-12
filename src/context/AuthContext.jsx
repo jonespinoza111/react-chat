@@ -54,6 +54,27 @@ const AuthProvider = ({ children }) => {
         navigate("/");
         navigate(0);
     };
+
+    const deleteAccount = async () => {
+        if (userInfo) {
+            try {
+                const response = await fetch(
+                  `http://localhost:5000/users/${userInfo.uid}`,
+                  {
+                    method: "DELETE"
+                  }
+                );
+          
+                const body = await response.json();
+          
+                if (body.success) {
+                    console.log('The deletion was successful');
+                }
+              } catch (err) {
+                console.log("There was an error updating the user", err);
+              }
+        }
+    }
     return (
         <AuthContext.Provider
             value={{

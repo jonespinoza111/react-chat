@@ -2,11 +2,15 @@ import React, { useContext } from 'react';
 import useDropdownMenu from "react-accessible-dropdown-menu-hook";
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
+import { ModalContext } from '../../context/ModalContext';
 import "./Dropdown.scss";
 
 const MainDropdown = () => {
   const { userInfo } = useContext(AuthContext);
   const { buttonProps, itemProps, isOpen, setIsOpen } = useDropdownMenu(2);
+
+  const { openModal } = useContext(ModalContext);
+
   return (
     <div className="dropdown-button">
         <button className="options-button" {...buttonProps} onClick={() => setIsOpen((prev) => !prev)}>
@@ -21,7 +25,10 @@ const MainDropdown = () => {
               Profile
             </Link>
           )}
-            <a {...itemProps[1]} onClick={() => console.log('Deleting Account')}>
+            <a {...itemProps[1]} onClick={() => {
+              setIsOpen((prev) => !prev);
+              openModal('DeleteAccountModal')
+            }}>
             Delete Account
             </a>
         </div>

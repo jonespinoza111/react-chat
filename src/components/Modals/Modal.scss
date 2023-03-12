@@ -43,7 +43,7 @@
 
 //CreateRoomModal
 
-.create-room-modal, .add-user-modal {
+.create-room-modal, .add-user-modal, .delete-account-modal {
     padding: 0.4em 1em;
     .title-row {
         font-size: 1em;
@@ -85,5 +85,28 @@
     padding: 0 0.5em;
     .attachment-img {
         border-radius: 5px;
+    }
+}
+
+.delete-account-modal {
+    .prompt {
+        margin-bottom: 1.5em;
+    }
+    .delete-button-row {
+        display: flex;
+        width: 100%;
+        justify-content: flex-end;
+        button:first-child {
+            margin-right: 0.6em;
+        }
+        .delete-button {
+            background: rgb(142, 74, 74);
+            color: white;
+        }
+        button {
+            padding: 0.4em 0.6em;
+            border: none;
+            cursor: pointer;
+        }
     }
 }

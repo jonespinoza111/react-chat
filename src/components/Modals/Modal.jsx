@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { ModalContext } from '../../context/ModalContext';
 import AddUserModal from './AddUserModal';
 import CreateRoomModal from './CreateRoomModal';
+import DeleteAccountModal from './DeleteAccountModal';
 import './Modal.scss';
 import ViewImageModal from './ViewImageModal';
 
@@ -32,6 +33,7 @@ const Modal = () => {
                 {(modalName === 'CreateRoomModal') && <CreateRoomModal />}
                 {(modalName === 'AddUserModal') && <AddUserModal roomInfo={modalProps} />}
                 {(modalName === 'ViewImageModal') && <ViewImageModal images={modalProps} />}
+                {(modalName === 'DeleteAccountModal') && <DeleteAccountModal />}
             </div>
         </div>
     , el)
