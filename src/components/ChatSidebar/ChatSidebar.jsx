@@ -49,7 +49,7 @@ const ChatSidebar = () => {
         <SearchBar />
       </div>
 
-      <div className="online-container sidebar-container">
+      {/* <div className="online-container sidebar-container">
         <h3 className="row-title">Online Now</h3>
         <div className="online-users">
           {onlineUsers &&
@@ -60,7 +60,7 @@ const ChatSidebar = () => {
               </div>
             ))}
         </div>
-      </div>
+      </div> */}
 
       <div className="rooms-container sidebar-container">
         <h3 className="row-title">Friends</h3>
