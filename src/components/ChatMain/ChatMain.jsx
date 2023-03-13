@@ -4,17 +4,23 @@ import { AuthContext } from "../../context/AuthContext";
 import { SocketContext } from "../../context/SocketContext";
 import { timeFormatter } from "../../helper/TimeFormatter";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faImage, faTimes } from "@fortawesome/free-solid-svg-icons";
+import {
+  faFaceSmileWink,
+  faImage,
+  faTimes,
+} from "@fortawesome/free-solid-svg-icons";
 import SingleMessage from "../SingleMessage/SingleMessage";
 import SingleRoom from "../SingleRoom/SingleRoom";
 import ScrollToBottom from "react-scroll-to-bottom";
 import ImageUploading from "react-images-uploading";
 import "./ChatMain.scss";
+import EmojiPicker from "emoji-picker-react";
 
 const ChatMain = () => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [chatInfo, setChatInfo] = useState(null);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
   //adding images
   const [images, setImages] = useState([]);
@@ -70,30 +76,27 @@ const ChatMain = () => {
     let formData = new FormData();
     let attachments;
 
-
     if (images && images.length > 0) {
-
       for (let i = 0; i < newImages.length; i++) {
-          formData.append(`images`, newImages[i]);
+        formData.append(`images`, newImages[i]);
       }
       console.log("these are the new images bro, ", newImages);
 
       console.log("this is the new formData, ", formData.getAll("images"));
 
-
       try {
-          const response = await fetch("http://localhost:5000/images", {
-              method: "POST",
-              // headers: { "Content-Type": "multipart/form-data" },
-              body: formData,
-          });
-          const body = await response.json();
+        const response = await fetch("http://localhost:5000/images", {
+          method: "POST",
+          // headers: { "Content-Type": "multipart/form-data" },
+          body: formData,
+        });
+        const body = await response.json();
 
-          attachments = { imagePaths: body.imagePaths };
+        attachments = { imagePaths: body.imagePaths };
 
-          console.log("This is body of images ", body);
+        console.log("This is body of images ", body);
       } catch (err) {
-          console.log("There was an error processing the images", err);
+        console.log("There was an error processing the images", err);
       }
     }
 
@@ -177,49 +180,52 @@ const ChatMain = () => {
       <ScrollToBottom className="chat-area">
         {socket &&
           messages &&
-          messages.map(({ _id, postedByUser, message, attachments, createdAt }, index) => {
-            const timeAgo = timeFormatter(createdAt);
+          messages.map(
+            ({ _id, postedByUser, message, attachments, createdAt }, index) => {
+              const timeAgo = timeFormatter(createdAt);
 
-            let prevSender;
-            if (index > 0) {
-              prevSender = messages[index - 1].postedByUser.username;
-            } else {
-              prevSender = "none";
+              let prevSender;
+              if (index > 0) {
+                prevSender = messages[index - 1].postedByUser.username;
+              } else {
+                prevSender = "none";
+              }
+
+              let newMessenger =
+                prevSender !== postedByUser.username || prevSender === "none";
+
+              let isLastMessage = messages[messages.length - 1]._id === _id;
+
+              return (
+                <SingleMessage
+                  key={_id}
+                  data={{
+                    timestamp: timeAgo,
+                    username: postedByUser.username,
+                  }}
+                  message={message}
+                  attachments={attachments}
+                  direction={"left"}
+                  newMessenger={newMessenger}
+                  isLastMessage={isLastMessage}
+                />
+              );
             }
-
-            let newMessenger =
-              prevSender !== postedByUser.username || prevSender === "none";
-
-            let isLastMessage = messages[messages.length - 1]._id === _id;
-
-            return (
-              <SingleMessage
-                key={_id}
-                data={{
-                  timestamp: timeAgo,
-                  username: postedByUser.username,
-                }}
-                message={message}
-                attachments={attachments}
-                direction={"left"}
-                newMessenger={newMessenger}
-                isLastMessage={isLastMessage}
-              />
-            );
-          })}
+          )}
         {/* {isTyping &&
           [...isTyping]
             .filter((typer) => typer !== userInfo.uid)
             .map((typer) => renderTyping(typer))} */}
       </ScrollToBottom>
       <div className="is-typing-row">
-      {isTyping && ([...isTyping].length <= 2) &&
+        {isTyping &&
+          [...isTyping].length <= 2 &&
           [...isTyping]
             .filter((typer) => typer !== userInfo.uid)
             .map((typer) => renderTyping(typer))}
-      {isTyping && ([...isTyping].length > 2) && (
-        <h3 className="is-typing-text">multiple users are typing ...</h3>
-      )}
+        {isTyping && [...isTyping].length > 2 && (
+          <h3 className="is-typing-text">multiple users are typing ...</h3>
+        )}
       </div>
       <div className="enter-message-container">
         <input
@@ -268,6 +274,30 @@ const ChatMain = () => {
             </div>
           )}
         </ImageUploading>
+        <div className="emoji-picker-container">
+          <button
+            className="emoji-picker-button"
+            onClick={() => setShowEmojiPicker((prev) => !prev)}
+          >
+            <FontAwesomeIcon
+              className="emoji-picker-icon"
+              icon={faFaceSmileWink}
+            />
+          </button>
+          {showEmojiPicker && (
+            <EmojiPicker
+              width={300}
+              height={400}
+              onEmojiClick={(emoji) => setMessage((prev) => `${prev}${emoji.emoji}`)}
+            />
+          )}
+        </div>
+        {showEmojiPicker && (
+          <div
+            className="under-emoji-picker"
+            onClick={() => setShowEmojiPicker((prev) => !prev)}
+          ></div>
+        )}
       </div>
     </div>
   );

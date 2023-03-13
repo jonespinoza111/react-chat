@@ -78,9 +78,9 @@ const ChatSidebar = () => {
                   getFriends={getUserFriends}
                 />
               ))}
-          {userInfo && userFriends.length <= 0 && (
+          {userInfo && userFriends && userFriends.length <= 0 && (
             <h4>No friends added yet.</h4>
-          )} 
+          )}
         </div>
       </div>
 
@@ -100,9 +100,13 @@ const ChatSidebar = () => {
                   hover={true}
                 />
               ))}
-          {userInfo && userFriends.length <= 0 && (
-            <h4>No DM's started yet.</h4>
-          )}  
+          {userInfo &&
+            userRooms &&
+            userRooms
+              .filter((room) => !room.roomName)
+              .filter((room) => room.userIds.length > 1).length <= 0 && (
+              <h4>No DM's started yet.</h4>
+            )}
         </div>
       </div>
 
@@ -130,9 +134,9 @@ const ChatSidebar = () => {
                   hover={true}
                 />
               ))}
-          {userInfo && userRooms.length <= 0 && (
+          {userInfo && userRooms && userRooms.length <= 0 && (
             <h4>No rooms created yet.</h4>
-          )}     
+          )}
         </div>
       </div>
 
