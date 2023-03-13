@@ -81,6 +81,13 @@
     }
 }
 
+
+.create-room-button, .add-user-button {
+    padding: 0.4em 0.6em;
+    border: none;
+    cursor: pointer;
+}
+
 .view-image-modal {
     padding: 0 0.5em;
     .attachment-img {

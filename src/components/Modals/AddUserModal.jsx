@@ -74,7 +74,7 @@ const AddUserModal = ({ roomInfo }) => {
           </div>
         </div>
         <div className="row">
-          <button className="create-room-button" type="submit">
+          <button className="add-user-button" type="submit">
             Submit
           </button>
         </div>

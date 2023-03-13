@@ -115,7 +115,7 @@ const ChatSidebar = () => {
             userRooms &&
             userRooms
               .filter((room) => room.roomName)
-              .filter((room) => room.userIds.length > 1)
+              // .filter((room) => room.userIds.length > 1)
               .map((room) => (
                 <SingleRoom
                   key={room._id}

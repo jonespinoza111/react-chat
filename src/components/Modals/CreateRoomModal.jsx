@@ -65,7 +65,7 @@ const CreateRoomModal = () => {
             />
           </div>
         </div>
-        <div className="row">
+        <div className="row create-room-button-row">
             <button className="create-room-button" type="submit">Submit</button>
         </div>
       </form>
