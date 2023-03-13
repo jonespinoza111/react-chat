@@ -39,6 +39,9 @@
                     margin-bottom: 1em;
                     background-color: rgb(68, 68, 68);
                     color: white;
+                    @include small-screen {
+                        font-size: 0.8em;
+                    }
             }
         }
         .row-title {

@@ -155,7 +155,7 @@ const ChatMain = () => {
     setTypingTimeout(
       setTimeout(() => {
         socket.emit("typingEnded", chatId, userInfo.uid);
-      }, 1500)
+      }, 10000)
     );
   };
 
@@ -212,18 +212,14 @@ const ChatMain = () => {
               );
             }
           )}
-        {/* {isTyping &&
-          [...isTyping]
-            .filter((typer) => typer !== userInfo.uid)
-            .map((typer) => renderTyping(typer))} */}
       </ScrollToBottom>
       <div className="is-typing-row">
         {isTyping &&
-          [...isTyping].length <= 2 &&
+          [...isTyping].length < 2 &&
           [...isTyping]
             .filter((typer) => typer !== userInfo.uid)
             .map((typer) => renderTyping(typer))}
-        {isTyping && [...isTyping].length > 2 && (
+        {isTyping && [...isTyping].length >= 2 && (
           <h3 className="is-typing-text">multiple users are typing ...</h3>
         )}
       </div>
@@ -235,62 +231,66 @@ const ChatMain = () => {
           onChange={handleInput}
           onKeyDown={(e) => (e.key === "Enter" ? sendMessage(e) : null)}
         />
-        <ImageUploading
-          multiple
-          value={images}
-          onChange={onChange}
-          maxNumber={maxNumber}
-          dataURLKey="data_url"
-        >
-          {({
-            imageList,
-            onImageUpload,
-            onImageRemoveAll,
-            onImageUpdate,
-            onImageRemove,
-            isDragging,
-            dragProps,
-          }) => (
-            <div className="upload__image-wrapper upload-image-container">
-              <button
-                style={isDragging ? { color: "red" } : undefined}
-                onClick={onImageUpload}
-                {...dragProps}
-              >
-                <FontAwesomeIcon icon={faImage} />
-              </button>
-              &nbsp;
-              {images.map((image, index) => (
-                <div key={index} className="image-item">
-                  <img src={image.data_url} alt="" width="60" height="60" />
-                  <button
-                    className="remove-image-button"
-                    onClick={() => onImageRemove(index)}
-                  >
-                    <FontAwesomeIcon className="times-icon" icon={faTimes} />
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
-        </ImageUploading>
-        <div className="emoji-picker-container">
-          <button
-            className="emoji-picker-button"
-            onClick={() => setShowEmojiPicker((prev) => !prev)}
+        <div className="buttons-container">
+
+          <ImageUploading
+            multiple
+            value={images}
+            onChange={onChange}
+            maxNumber={maxNumber}
+            dataURLKey="data_url"
           >
-            <FontAwesomeIcon
-              className="emoji-picker-icon"
-              icon={faFaceSmileWink}
-            />
-          </button>
-          {showEmojiPicker && (
-            <EmojiPicker
-              width={300}
-              height={400}
-              onEmojiClick={(emoji) => setMessage((prev) => `${prev}${emoji.emoji}`)}
-            />
-          )}
+            {({
+              imageList,
+              onImageUpload,
+              onImageRemoveAll,
+              onImageUpdate,
+              onImageRemove,
+              isDragging,
+              dragProps,
+            }) => (
+              <div className="upload__image-wrapper upload-image-container">
+                <button
+                  style={isDragging ? { color: "red" } : undefined}
+                  className="choose-image-button"
+                  onClick={onImageUpload}
+                  {...dragProps}
+                >
+                  <FontAwesomeIcon icon={faImage} />
+                </button>
+                &nbsp;
+                {images.map((image, index) => (
+                  <div key={index} className="image-item">
+                    <img src={image.data_url} alt="" width="60" height="60" />
+                    <button
+                      className="remove-image-button"
+                      onClick={() => onImageRemove(index)}
+                    >
+                      <FontAwesomeIcon className="times-icon" icon={faTimes} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </ImageUploading>
+          <div className="emoji-picker-container">
+            <button
+              className="emoji-picker-button"
+              onClick={() => setShowEmojiPicker((prev) => !prev)}
+            >
+              <FontAwesomeIcon
+                className="emoji-picker-icon"
+                icon={faFaceSmileWink}
+              />
+            </button>
+            {showEmojiPicker && (
+              <EmojiPicker
+                width={300}
+                height={400}
+                onEmojiClick={(emoji) => setMessage((prev) => `${prev}${emoji.emoji}`)}
+              />
+            )}
+          </div>
         </div>
         {showEmojiPicker && (
           <div

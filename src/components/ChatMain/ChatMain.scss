@@ -73,18 +73,22 @@
         justify-content: center;
         align-items: center;
         padding: 0 1em;
+        @include small-screen {
+            overflow-x: scroll;
+        }
         input {
             padding: 0 1em;
             height: 50px;
             flex-grow: 1;
             max-width: 80%;
-            // width: au%;
-            // max-width: 80%;
             border-radius: 0.4em;
             border-style: none;
             color: white;
             outline: none;
             background-color: rgba(77, 77, 77, 0.9);
+            @include small-screen {
+               min-width: 3em;
+            }
             &:focus {
                 border: 1px solid rgba(106, 106, 106, 0.9);
             }
@@ -111,6 +115,9 @@
     justify-content: center;
     align-items: center;
     padding-bottom: 1em;
+    @include small-screen {
+        min-width: 3em;
+    }
     .remove-image-button {
         display: flex;
         justify-content: center;
@@ -132,15 +139,6 @@
     }
 }
 
-.emoji-picker {
-    background-color: black;
-    width: 200px;
-
-    .epr-header {
-        background-color: blue;
-    }
-}
-
 .epr-main, .epr-header, .epr-body, .epr-preview {
     background-color: black;
     border-color: black;
@@ -148,6 +146,9 @@
 
 .emoji-picker-container {
     position: relative;
+    @include small-screen {
+        display: none;
+    }
     .EmojiPickerReact.epr-main {
         position: absolute;
         background-color: black;
@@ -170,4 +171,16 @@
     height: 100%;
     width: 69%;
     z-index: 90;
+}
+
+.choose-image-button, .emoji-picker-button {
+    @include small-screen {
+        min-width: 25px;
+    }
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

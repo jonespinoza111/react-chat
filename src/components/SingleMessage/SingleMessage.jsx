@@ -17,8 +17,9 @@ const SingleMessage = ({
         if (attachments && attachments.imagePaths) {
             return (
                 <div className="attachments-container">
-                    {attachments.imagePaths.map((imagePath) => (
+                    {attachments.imagePaths.map((imagePath, index) => (
                         <img
+                            key={index}
                             className="attachment-img"
                             width={165}
                             height={180}

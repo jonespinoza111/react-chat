@@ -28,13 +28,13 @@
         border-radius: 5%;
         padding: 0.4em 0.5em;
         cursor: pointer;
+        @include small-screen {
+            font-size: 0.8em;
+        }
         &:hover {
             // background-color: rgb(103, 193, 190);
             background-color: rgb(91, 91, 91);
 
-        }
-        @include small-screen {
-            font-size: 0.8em;
         }
     }
 
@@ -80,6 +80,10 @@
 
 .show-members-button {
     position: relative;
+    // @include small-screen {
+    //     width: 20px;
+    //     height: 20px;
+    // }
     .members-button {
         margin: 0;
         width: auto;
@@ -101,8 +105,8 @@
             background-color: rgb(59, 59, 59);
         }
         @include small-screen {
-            width: 35px;
-            height: 35px;
+            width: 20px;
+            height: 20px;
         }
     }
     .dropdown-container {
@@ -114,5 +118,10 @@
         overflow-y: scroll;
         scrollbar-width: thin;          /* "auto" or "thin" */
         scrollbar-color: #3B3E49 #25323f; 
+        @include small-screen {
+            a {
+                font-size: 1.1em;
+            }
+        }
     }
 }

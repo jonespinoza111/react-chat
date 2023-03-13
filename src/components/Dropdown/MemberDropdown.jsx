@@ -9,7 +9,7 @@ const MemberDropdown = ({ members }) => {
                 &#x2304;
             </button>
             <div
-                className={`dropdown-container ${isOpen ? "visible" : ""}`}
+                className={`dropdown-container members-dropdown ${isOpen ? "visible" : ""}`}
                 role="menu"
             > 
                 {members.map((member, index) => (

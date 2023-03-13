@@ -1,3 +1,5 @@
+@import '../../sassStyles/global';
+
 .search {
     display: flex;
     flex-direction: row;
@@ -12,6 +14,10 @@
         color: white;
         outline: none;
         background-color: rgba(77, 77, 77, 0.9);
+        @include small-screen {
+            font-size: 13px;
+            height: 40px;
+        }
         &:focus {
             border: 1px solid rgba(106, 106, 106, 0.9);
         }
@@ -25,6 +31,9 @@
         width: auto;
         border-style: none;
         padding: 0 0.6em;
+        @include small-screen {
+            height: 40px;
+        }
         .search-icon {
             font-size: 1.5em;
             color: white;

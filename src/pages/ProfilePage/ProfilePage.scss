@@ -25,22 +25,34 @@
         padding: 0 0 2em;
         color: white;
         font-size: 16px;
+        @include small-screen {
+            width: 100%;
+        }
         .options-container {
             display: flex;
             margin: 0.5em 0 1em 0;
+            @include small-screen {
+                overflow-x: scroll;
+            }
             .avatar-option {
                 border-radius: 50%;
                 width: 8em;
                 height: 8em;
                 margin:  0.5em 1em 0.5em 0;
                 cursor: pointer;
+                @include small-screen {
+                    height: 5em;
+                    width: 5em;
+                }
                 &:hover {
                     scale: 1.1;
                 }
             }
             .current-choice {
                 border: 0.5em solid rgb(252, 241, 179);
-                // border: 0.5em solid black;
+                @include small-screen {
+                    border-width: 0.3em;
+                }
                 &:hover {
                     scale: 1;
                 }
@@ -58,6 +70,9 @@
         max-width: 30%;
         background-color: transparent;
         margin-top: 2em;
+        @include small-screen {
+            max-width: 80%;
+        }
         .form-sub-title {
             font-size: 1.2em;
         }
@@ -85,10 +100,6 @@
             position: relative;
             height: 170px;
             width: 170px;
-            @include small-screen {
-                height: 40px;
-                width: 40px;
-            }
         }
         .info-row {
             width: 17em;
