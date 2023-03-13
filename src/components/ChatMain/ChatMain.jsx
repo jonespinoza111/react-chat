@@ -207,11 +207,20 @@ const ChatMain = () => {
               />
             );
           })}
-        {isTyping &&
+        {/* {isTyping &&
+          [...isTyping]
+            .filter((typer) => typer !== userInfo.uid)
+            .map((typer) => renderTyping(typer))} */}
+      </ScrollToBottom>
+      <div className="is-typing-row">
+      {isTyping && ([...isTyping].length <= 2) &&
           [...isTyping]
             .filter((typer) => typer !== userInfo.uid)
             .map((typer) => renderTyping(typer))}
-      </ScrollToBottom>
+      {isTyping && ([...isTyping].length > 2) && (
+        <h3 className="is-typing-text">multiple users are typing ...</h3>
+      )}
+      </div>
       <div className="enter-message-container">
         <input
           type="text"

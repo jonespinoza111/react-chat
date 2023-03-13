@@ -66,7 +66,7 @@ const ChatSidebar = () => {
         <h3 className="row-title">Friends</h3>
         <div className="all-rooms">
           {userFriends &&
-            userFriends.length &&
+            userFriends.length > 0 &&
             userFriends
               // .filter((user) => user.status === "accepted")
               .map((user) => (
@@ -78,6 +78,9 @@ const ChatSidebar = () => {
                   getFriends={getUserFriends}
                 />
               ))}
+          {userInfo && userFriends.length <= 0 && (
+            <h4>No friends added yet.</h4>
+          )} 
         </div>
       </div>
 
@@ -97,6 +100,9 @@ const ChatSidebar = () => {
                   hover={true}
                 />
               ))}
+          {userInfo && userFriends.length <= 0 && (
+            <h4>No DM's started yet.</h4>
+          )}  
         </div>
       </div>
 
@@ -124,6 +130,9 @@ const ChatSidebar = () => {
                   hover={true}
                 />
               ))}
+          {userInfo && userRooms.length <= 0 && (
+            <h4>No rooms created yet.</h4>
+          )}     
         </div>
       </div>
 

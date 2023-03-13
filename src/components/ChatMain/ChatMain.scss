@@ -39,19 +39,30 @@
         flex-direction: column;
         color: white;
         width: 100%;
-        height: 69%;
-        padding: 2em 0;
+        height: 63%;
+        padding: 2em 0 0 0;
         scrollbar-width: thin;          /* "auto" or "thin" */
         scrollbar-color: #3B3E49 #25323f; 
+    }
+    .is-typing-row {
+        height: 5%;
+        background-color: rgba(10, 14, 15);
+        display: flex;
+        flex-direction: row;
+        color: white;
+        padding-bottom: 0.7em;
+        .is-typing-text:first-child {
+            margin-left: 2em;
+        }
         .is-typing-text {
             display: flex;
             align-items: center;
             border-radius: 2%;
-            width: 20%;
-            margin: 0.5em 2em 0 2em;
-            padding: 0.2em 1em;
+            width: auto;
+            margin: 0.5em 0.5em 0 0;
+            // padding: 0.2em 1em;
             color: rgb(187, 187, 187);
-            background-color: rgba(77, 77, 77, 0.9);
+            // background-color: rgba(77, 77, 77, 0.9);
         } 
     }
 
