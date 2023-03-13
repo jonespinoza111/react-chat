@@ -39,3 +39,14 @@
         }
     }
 }
+
+.show-password-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    .show-password {
+        margin-right: 0.3em;
+        height: 16px;
+        width: 16px;
+    }
+}

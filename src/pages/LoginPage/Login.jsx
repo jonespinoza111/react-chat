@@ -6,6 +6,7 @@ import "./Login.scss";
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const { isUserLoggedIn, checkAuthUser } = useContext(AuthContext);
 
@@ -65,10 +66,14 @@ const Login = () => {
                   id="password"
                   className="form-input input"
                   placeholder=""
-                  // type="password"
+                  type={showPassword ? '' : 'password'}
                   required
                   onChange={(e) => setPassword(e.target.value)}
                 />
+              </div>
+              <div className="form-input-container show-password-container">
+                <input className="show-password" type="checkbox" onChange={(e) => setShowPassword(prev => !prev)} />
+                <span>Show Password</span>
               </div>
               <div className="form-button-container">
                 <button className="form-button login-form-button" type="submit">

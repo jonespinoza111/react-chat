@@ -87,7 +87,6 @@ const ChatMain = () => {
         const body = await response.json();
 
         attachments = { imagePaths: body.imagePaths };
-
       } catch (err) {
         console.log("There was an error processing the images", err);
       }

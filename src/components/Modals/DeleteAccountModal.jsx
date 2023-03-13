@@ -5,29 +5,26 @@ import { ModalContext } from "../../context/ModalContext";
 import { SocketContext } from "../../context/SocketContext";
 
 const DeleteAccountModal = () => {
+  const { userInfo, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const { socket } = useContext(SocketContext);
 
-    const { userInfo, logout } = useContext(AuthContext);
-    const navigate = useNavigate();
-    const { socket } = useContext(SocketContext);
+  const deleteAccount = async () => {
+    if (userInfo) {
+      try {
+        await fetch(
+          `http://localhost:5000/users/${userInfo.uid}`,
+          {
+            method: "DELETE",
+          }
+        );
 
-    const deleteAccount = async () => {
-        if (userInfo) {
-            try {
-                const response = await fetch(
-                  `http://localhost:5000/users/${userInfo.uid}`,
-                  {
-                    method: "DELETE"
-                  }
-                );
-
-                logout(navigate, socket);
-          
-        
-              } catch (err) {
-                console.log("There was an error updating the user", err);
-              }
-        }
+        logout(navigate, socket);
+      } catch (err) {
+        console.log("There was an error updating the user", err);
+      }
     }
+  };
 
   const { closeModal } = useContext(ModalContext);
   return (

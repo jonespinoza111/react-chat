@@ -14,8 +14,6 @@ const ProfileDetails = ({ userInfo }) => {
     avatarOptions.find((option) => option.src === userInfo.profilePic).optionNum
   );
 
-
-
   const submitChanges = async (e) => {
     e.preventDefault();
     try {
@@ -48,7 +46,10 @@ const ProfileDetails = ({ userInfo }) => {
   };
 
   return (
-    <form className="profile-details-form form-container" onSubmit={submitChanges}>
+    <form
+      className="profile-details-form form-container"
+      onSubmit={submitChanges}
+    >
       <div className="form-group">
         <h3 className="form-sub-title">Change your avatar</h3>
         <div className="options-container">

@@ -6,7 +6,11 @@ const Dropdown = ({ startChat, addFriend, removeFriend, friendStatus }) => {
   const { buttonProps, itemProps, isOpen, setIsOpen } = useDropdownMenu(2);
   return (
     <div className="dropdown-button">
-      <button className="options-button" {...buttonProps} onClick={() => setIsOpen((prev) => !prev)}>
+      <button
+        className="options-button"
+        {...buttonProps}
+        onClick={() => setIsOpen((prev) => !prev)}
+      >
         &#xFE19;
       </button>
       <div
@@ -17,34 +21,46 @@ const Dropdown = ({ startChat, addFriend, removeFriend, friendStatus }) => {
           Start Chat
         </a>
         {friendStatus === "requested" && (
-            <a {...itemProps[1]} onClick={() => {
+          <a
+            {...itemProps[1]}
+            onClick={() => {
               setIsOpen((prev) => !prev);
               removeFriend();
-            }}>
-              Remove Friend Request
-            </a>
+            }}
+          >
+            Remove Friend Request
+          </a>
         )}
         {friendStatus === "pending" && (
-            <a {...itemProps[1]} onClick={() => {
+          <a
+            {...itemProps[1]}
+            onClick={() => {
               setIsOpen((prev) => !prev);
               addFriend();
-            }}>
-              Accept Friend Request
-            </a>
+            }}
+          >
+            Accept Friend Request
+          </a>
         )}
         {friendStatus === "accepted" && (
-          <a {...itemProps[1]} onClick={() => {
+          <a
+            {...itemProps[1]}
+            onClick={() => {
               setIsOpen((prev) => !prev);
               removeFriend();
-            }}>
+            }}
+          >
             Remove Friend
           </a>
         )}
         {friendStatus === "none" && (
-          <a {...itemProps[1]} onClick={() => {
+          <a
+            {...itemProps[1]}
+            onClick={() => {
               addFriend();
               setIsOpen((prev) => !prev);
-          }}>
+            }}
+          >
             Add Friend
           </a>
         )}

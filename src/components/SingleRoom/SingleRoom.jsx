@@ -40,10 +40,10 @@ const SingleRoom = ({ room, userInfo, hover = false }) => {
           />
         ) : (
           <img
-          className="dm-icon"
-          src={require("../../assets/message.png")}
-          alt="dm-icon"
-        />
+            className="dm-icon"
+            src={require("../../assets/message.png")}
+            alt="dm-icon"
+          />
         )}
         <div className="user-info">
           <h3>

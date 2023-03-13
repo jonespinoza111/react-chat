@@ -35,11 +35,12 @@ const SearchBar = () => {
   return (
     <>
       <form className="search" onSubmit={searchUser}>
-        <button type="submit" disabled={inputValue.length < 1} className="search-icon-container">
-          <FontAwesomeIcon
-            className="search-icon"
-            icon={faMagnifyingGlass}
-          />
+        <button
+          type="submit"
+          disabled={inputValue.length < 1}
+          className="search-icon-container"
+        >
+          <FontAwesomeIcon className="search-icon" icon={faMagnifyingGlass} />
         </button>
         <input
           value={inputValue}

@@ -1,33 +1,31 @@
-import React, { useEffect, createContext } from 'react';
-import io from 'socket.io-client';
+import React, { useEffect, createContext } from "react";
+import io from "socket.io-client";
 
 export const SocketContext = createContext();
 
 let socket;
-const ENDPOINT = 'http://localhost:5000';
+const ENDPOINT = "http://localhost:5000";
 socket = io(ENDPOINT);
 
 const SocketProvider = ({ uid, children }) => {
-
-    useEffect(() => {
-        if (uid) {
-            socket.emit("online", uid, (error) => {
-                if (error) {
-                    alert(error);
-                }
-            });
-            socket.on('disconnect', () => { 
-                socket.emit('offline', uid);
-            });
+  useEffect(() => {
+    if (uid) {
+      socket.emit("online", uid, (error) => {
+        if (error) {
+          alert(error);
         }
+      });
+      socket.on("disconnect", () => {
+        socket.emit("offline", uid);
+      });
+    }
+  }, [socket, uid]);
 
-    }, [socket, uid]);
-
-    return (
-        <SocketContext.Provider value={{ socket }}>
-            {children}
-        </SocketContext.Provider>
-    )
-}
+  return (
+    <SocketContext.Provider value={{ socket }}>
+      {children}
+    </SocketContext.Provider>
+  );
+};
 
 export default SocketProvider;

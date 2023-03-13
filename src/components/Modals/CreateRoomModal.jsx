@@ -16,7 +16,7 @@ const CreateRoomModal = () => {
   const createRoom = (e) => {
     e.preventDefault();
     const userIds = [userInfo.uid, ...selectedUsers];
-    
+
     socket.emit("createChat", userIds, userInfo.uid, roomName, (roomInfo) => {
       getUserRooms(socket);
       closeModal();
@@ -63,7 +63,9 @@ const CreateRoomModal = () => {
           </div>
         </div>
         <div className="row create-room-button-row">
-            <button className="create-room-button" type="submit">Submit</button>
+          <button className="create-room-button" type="submit">
+            Submit
+          </button>
         </div>
       </form>
     </div>

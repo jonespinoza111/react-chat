@@ -15,17 +15,16 @@ const Navbar = () => {
         <span className="logo">Us</span>
       </div>
       <ul className="navigation">
-          <li className="parent">
-            <Link className="link" to={"/home"}>
-              Home
-            </Link>
-          </li>
+        <li className="parent">
+          <Link className="link" to={"/home"}>
+            Home
+          </Link>
+        </li>
         <li className="parent" onClick={() => logout(navigate, socket)}>
           <a className="link" href="#">
             Logout
           </a>
         </li>
-        
       </ul>
     </nav>
   );
