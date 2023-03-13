@@ -12,23 +12,16 @@ const AuthProvider = ({ children }) => {
     const checkAuthUser = useCallback(() => {
         const currentUser = localStorage.getItem("currentUser");
         if (currentUser) {
-            console.log("checking right now and there is user");
             setIsUserLoggedIn(true);
-            console.log("this is what is getting parsed right now ", JSON.parse(atob(currentUser.split(".")[1])));
             setUserInfo(JSON.parse(atob(currentUser.split(".")[1])));
         }
     }, []);
 
     const getUserFriends = useCallback(
         (socket) => {
-            console.log('socket ready set goooooooogo, ', socket);
             if (userInfo) {
                 socket.emit("getFriends", userInfo.uid, (friends) => {
                     setUserFriends(friends);
-                    console.log(
-                        "I am getting the friends now ok so wait",
-                        friends
-                    );
                 });
             }
         },
@@ -40,7 +33,6 @@ const AuthProvider = ({ children }) => {
             if (userInfo) {
                 socket.emit('getRooms', userInfo.uid, (allRooms) => {
                     setUserRooms(allRooms);
-                    console.log('all rooms in room container', allRooms);
                 });
             }
         }, 

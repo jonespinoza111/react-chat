@@ -16,7 +16,6 @@ const CreateRoomModal = () => {
   const createRoom = (e) => {
     e.preventDefault();
     const userIds = [userInfo.uid, ...selectedUsers];
-    console.log("create room userids in createroommodal", userIds);
     
     socket.emit("createChat", userIds, userInfo.uid, roomName, (roomInfo) => {
       getUserRooms(socket);
@@ -27,12 +26,10 @@ const CreateRoomModal = () => {
 
   const onSelectCheckBox = (friendId) => {
     if (selectedUsers.has(friendId)) {
-      console.log("unselecting");
       setSelectedUsers(
         (prevState) => new Set([...prevState].filter((id) => id !== friendId))
       );
     } else {
-      console.log("selecting");
       setSelectedUsers((prevState) => new Set(prevState.add(friendId)));
     }
   };

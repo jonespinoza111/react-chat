@@ -10,8 +10,6 @@ const ProfileDetails = ({ userInfo }) => {
   const { checkAuthUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  console.log('hello user info now', userInfo);
-
   const [avatarPicked, setAvatarPicked] = useState(
     avatarOptions.find((option) => option.src === userInfo.profilePic).optionNum
   );
@@ -40,7 +38,6 @@ const ProfileDetails = ({ userInfo }) => {
       const body = await response.json();
 
       if (body.success) {
-        console.log("Your update was successful", body.authToken);
         localStorage.setItem("currentUser", body.authToken);
         checkAuthUser();
         navigate(0);

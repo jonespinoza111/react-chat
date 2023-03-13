@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { SocketContext } from "../../context/SocketContext";
@@ -28,7 +28,6 @@ const ChatMain = () => {
   const maxNumber = 4;
 
   const onChange = (imageList, addUpdateIndex) => {
-    console.log(imageList, addUpdateIndex);
     setImages(imageList);
   };
   // adding images ends
@@ -42,12 +41,10 @@ const ChatMain = () => {
     socket.emit("getMessages", chatId, (messages) => setMessages(messages));
 
     socket.emit("getChatRoomInfo", chatId, (info) => {
-      console.log("bop bop bop1 ", info);
       setChatInfo(info);
     });
 
     socket.on("updatedChatRoomInfo", (info) => {
-      console.log("bop bop bop2 ", info);
       setChatInfo(info);
     });
 
@@ -80,9 +77,6 @@ const ChatMain = () => {
       for (let i = 0; i < newImages.length; i++) {
         formData.append(`images`, newImages[i]);
       }
-      console.log("these are the new images bro, ", newImages);
-
-      console.log("this is the new formData, ", formData.getAll("images"));
 
       try {
         const response = await fetch("http://localhost:5000/images", {
@@ -94,7 +88,6 @@ const ChatMain = () => {
 
         attachments = { imagePaths: body.imagePaths };
 
-        console.log("This is body of images ", body);
       } catch (err) {
         console.log("There was an error processing the images", err);
       }
@@ -125,7 +118,6 @@ const ChatMain = () => {
       let newSet = new Set(isTyping);
 
       if (!isTyping.has(typerId)) {
-        console.log("am I already someone is typing here");
         newSet.add(typerId);
         setIsTyping(newSet);
       }
@@ -134,7 +126,6 @@ const ChatMain = () => {
     socket.on("userStoppedTyping", (typerId) => {
       let newSet = new Set(isTyping);
 
-      console.log("am I already stopped typing on here client side");
       newSet.delete(typerId);
       setIsTyping(newSet);
     });
@@ -160,7 +151,6 @@ const ChatMain = () => {
   };
 
   const chatTopBar = () => {
-    console.log("dippity doo dot");
     return <SingleRoom room={chatInfo} userInfo={userInfo} />;
   };
 
@@ -232,7 +222,6 @@ const ChatMain = () => {
           onKeyDown={(e) => (e.key === "Enter" ? sendMessage(e) : null)}
         />
         <div className="buttons-container">
-
           <ImageUploading
             multiple
             value={images}
@@ -287,7 +276,9 @@ const ChatMain = () => {
               <EmojiPicker
                 width={300}
                 height={400}
-                onEmojiClick={(emoji) => setMessage((prev) => `${prev}${emoji.emoji}`)}
+                onEmojiClick={(emoji) =>
+                  setMessage((prev) => `${prev}${emoji.emoji}`)
+                }
               />
             )}
           </div>

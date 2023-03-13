@@ -21,11 +21,8 @@ const DeleteAccountModal = () => {
                 );
 
                 logout(navigate, socket);
-                const body = await response.json();
           
-                if (body.success) {
-                    console.log('The deletion was successful');
-                }
+        
               } catch (err) {
                 console.log("There was an error updating the user", err);
               }

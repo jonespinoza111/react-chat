@@ -13,11 +13,9 @@
     top: 45px;
     left: -9em;
     background-color: rgba(77, 77, 77, 1);
-    // color: rgb(116, 219, 216);
     color: white;
     width: 12em;
     z-index: 120;
-    // box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     @include small-screen {
         top: 35px;
@@ -32,7 +30,6 @@
             font-size: 0.8em;
         }
         &:hover {
-            // background-color: rgb(103, 193, 190);
             background-color: rgb(91, 91, 91);
 
         }
@@ -80,10 +77,6 @@
 
 .show-members-button {
     position: relative;
-    // @include small-screen {
-    //     width: 20px;
-    //     height: 20px;
-    // }
     .members-button {
         margin: 0;
         width: auto;
@@ -97,7 +90,6 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        // border: none;
         border: 2px solid rgb(71, 71, 71);
         cursor: pointer;
         margin-left: 0.8em;

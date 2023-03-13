@@ -32,13 +32,10 @@ const Login = () => {
 
       if (body.success) {
         localStorage.setItem("currentUser", body.authorization);
-        console.log("going home");
         checkAuthUser();
         navigate("/home");
         navigate(0);
       }
-
-      console.log("This is body ", body);
     } catch (err) {
       console.log("There was an error loggin in", err);
     }

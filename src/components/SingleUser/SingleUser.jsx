@@ -18,8 +18,6 @@ const SingleUser = ({
   const { userInfo } = useContext(AuthContext);
   const [status, setStatus] = useState(null);
 
-  // console.log("big big big user info  ", user);
-
   let userId = user.uid ? user.uid : user._id;
 
   useEffect(() => {
@@ -44,7 +42,6 @@ const SingleUser = ({
     const userIds = [user._id, userInfo.uid];
     socket.emit("createChat", userIds, userInfo.uid, null, () => {});
     socket.on("chatRoomInfo", (chatRoom) => {
-      console.log("this is the chatRoom sent back from server", chatRoom);
       if (chatRoom) {
         navigate(`/room/${chatRoom.chatRoomId}`);
       }

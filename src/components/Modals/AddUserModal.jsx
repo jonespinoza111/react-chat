@@ -30,7 +30,6 @@ const AddUserModal = ({ roomInfo }) => {
         }
       );
     } else {
-      console.log("adding the users", selectedUsers);
       socket.emit("addUsersToRoom", roomInfo._id, [...selectedUsers], () => {
         getUserRooms(socket);
         closeModal();
@@ -40,12 +39,10 @@ const AddUserModal = ({ roomInfo }) => {
 
   const onSelectCheckBox = (friendId) => {
     if (selectedUsers.has(friendId)) {
-      console.log("unselecting");
       setSelectedUsers(
         (prevState) => new Set([...prevState].filter((id) => id !== friendId))
       );
     } else {
-      console.log("selecting");
       setSelectedUsers((prevState) => new Set(prevState.add(friendId)));
     }
   };

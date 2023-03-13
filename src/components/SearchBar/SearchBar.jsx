@@ -11,7 +11,6 @@ const SearchBar = () => {
 
   const searchUser = async (e) => {
     e.preventDefault();
-    console.log("humpty dumpty", inputValue);
     try {
       const response = await fetch(
         `http://localhost:5000/users/username/${inputValue.toLowerCase()}`
@@ -22,7 +21,6 @@ const SearchBar = () => {
       if (body.success) {
         setSearchError(null);
         navigate(`/user/${body.user._id}`);
-        console.log("User you searched", body.user);
       }
 
       if (!body.success) {

@@ -12,7 +12,6 @@ const ViewProfileDetails = ({ profileDetails }) => {
     const { getUserFriends, userFriends, userInfo } = useContext(AuthContext);
     const { socket } = useContext(SocketContext);
 
-    console.log('sing userfriends ', userFriends);
     let friendStatus = userFriends && userFriends.find(user => user._id === profileDetails._id)
 
     const addFriend = () => {
@@ -51,7 +50,7 @@ const ViewProfileDetails = ({ profileDetails }) => {
                     )
                     break;
                 default: 
-                    console.log('hello');
+                    console.log('default');
             }
 
         } else {

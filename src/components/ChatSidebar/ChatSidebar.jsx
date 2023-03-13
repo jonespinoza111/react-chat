@@ -24,10 +24,8 @@ const ChatSidebar = () => {
       });
       socket.emit("getAllUsers", (users) => {
         setAllUsers(users);
-        console.log("This is what all the usuers are doing here ", users);
       });
       socket.on("getUserFriends", () => {
-        console.log("getting tutto friends in chatSidebar ");
         getUserFriends(socket);
       });
       getUserFriends(socket);

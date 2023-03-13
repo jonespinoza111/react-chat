@@ -7,7 +7,6 @@ import RoomDropdown from "../Dropdown/RoomDropdown";
 import "./SingleRoom.scss";
 
 const SingleRoom = ({ room, userInfo, hover = false }) => {
-  // console.log("my my my room info ", room);
   const navigate = useNavigate();
   const params = useParams();
   const { socket } = useContext(SocketContext);
@@ -20,7 +19,6 @@ const SingleRoom = ({ room, userInfo, hover = false }) => {
   };
 
   const deleteRoom = () => {
-    console.log("deleting room now ", room._id);
     socket.emit("deleteChat", room._id, userInfo.uid, () => {
       getUserRooms(socket);
       navigate("/home");

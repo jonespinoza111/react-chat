@@ -16,7 +16,6 @@ const ProfilePage = () => {
     try {
       const response = await fetch(`http://localhost:5000/users/${userId}`);
       const body = await response.json();
-      console.log('profile page user info body, ', body);
 
       if (body.success) setProfileInfo(body.user)
 

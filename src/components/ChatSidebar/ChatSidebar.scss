@@ -9,8 +9,6 @@
     overflow-x: hidden;
     color: white;
     background-color: #171b1d;
-    // background-color: rgb(37, 44, 46);
-    // Firefox Scrollbar Styles
     scrollbar-width: thin;          /* "auto" or "thin" */
     scrollbar-color: #3B3E49 #25323f;  
     padding: 1em 0.5em;
@@ -27,11 +25,6 @@
             flex-direction: row;
             justify-content: space-between;
             align-items: center;
-            @include small-screen {
-                flex-direction: column;
-                justify-content: center;
-                align-items: flex-start;
-            }
             .add-room-button {
                     padding: 0.2em 0.6em;
                     border: none;
@@ -41,6 +34,10 @@
                     color: white;
                     @include small-screen {
                         font-size: 0.8em;
+                    }
+                    &:hover {
+                        background-color: rgb(87, 87, 87);
+
                     }
             }
         }
@@ -81,7 +78,6 @@
     .online-container {
         .online-users {
             width: 100%;
-            // background-color: green;
             display: flex;
             flex-direction: row;
             justify-content: start;
@@ -116,9 +112,6 @@
             height: auto;
             max-height: auto;
             min-height: 2em;
-            // min-height: 10em;
-            // background-color: blue;
-            // overflow-y: scroll;
             scrollbar-width: thin;          /* "auto" or "thin" */
             scrollbar-color: #3B3E49 #25323f; 
             .single-user {

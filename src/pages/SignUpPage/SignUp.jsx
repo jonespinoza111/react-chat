@@ -86,7 +86,6 @@ const SignUp = () => {
                 navigate("/login");
             }
         }
-        console.log("This is body ", body);
     } catch (err) {
         console.log("There was an error creating a new user");
     }
