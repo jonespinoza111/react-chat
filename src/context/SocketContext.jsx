@@ -4,7 +4,7 @@ import io from "socket.io-client";
 export const SocketContext = createContext();
 
 let socket;
-const ENDPOINT = "http://localhost:5000";
+const ENDPOINT = "http://chat-server-wc7r.onrender.com";
 socket = io(ENDPOINT);
 
 const SocketProvider = ({ uid, children }) => {

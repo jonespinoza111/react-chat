@@ -13,7 +13,7 @@ const DeleteAccountModal = () => {
     if (userInfo) {
       try {
         await fetch(
-          `http://localhost:5000/users/${userInfo.uid}`,
+          `http://chat-server-wc7r.onrender.com/users/${userInfo.uid}`,
           {
             method: "DELETE",
           }

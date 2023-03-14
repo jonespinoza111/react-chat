@@ -7,7 +7,7 @@ const ViewImageModal = ({ images }) => {
         className="attachment-img"
         width={450}
         height={395}
-        src={`http://localhost:5000${images}`}
+        src={`http://chat-server-wc7r.onrender.com${images}`}
         alt="attachment from user"
       ></img>
     </div>

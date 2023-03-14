@@ -13,7 +13,7 @@ const SearchBar = () => {
     e.preventDefault();
     try {
       const response = await fetch(
-        `http://localhost:5000/users/username/${inputValue.toLowerCase()}`
+        `http://chat-server-wc7r.onrender.com/users/username/${inputValue.toLowerCase()}`
       );
 
       const body = await response.json();

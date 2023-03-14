@@ -25,7 +25,7 @@ const SingleMessage = ({
               className="attachment-img"
               width={165}
               height={180}
-              src={`http://localhost:5000${imagePath}`}
+              src={`http://chat-server-wc7r.onrender.com${imagePath}`}
               alt="attachment from user"
               onClick={() => openModal("ViewImageModal", imagePath)}
             ></img>
