@@ -19,7 +19,7 @@ const Login = () => {
   const submitLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://chat-server-wc7r.onrender.com/login", {
+      const response = await fetch("https://chat-server-wc7r.onrender.com/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

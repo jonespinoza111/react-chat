@@ -14,7 +14,7 @@ const ProfilePage = () => {
 
   const getUserInfo = useCallback(async () => {
     try {
-      const response = await fetch(`http://chat-server-wc7r.onrender.com/users/${userId}`);
+      const response = await fetch(`https://chat-server-wc7r.onrender.com/users/${userId}`);
       const body = await response.json();
 
       if (body.success) setProfileInfo(body.user)

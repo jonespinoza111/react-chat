@@ -42,7 +42,7 @@ const SignUp = () => {
     e.preventDefault();
     let changedUsername = username.toLowerCase();
     try {
-        const response = await fetch("http://chat-server-wc7r.onrender.com/users", {
+        const response = await fetch("https://chat-server-wc7r.onrender.com/users", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -60,7 +60,7 @@ const SignUp = () => {
 
         if (body.success) {
             const responseLogin = await fetch(
-                "http://chat-server-wc7r.onrender.com/login",
+                "https://chat-server-wc7r.onrender.com/login",
                 {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },

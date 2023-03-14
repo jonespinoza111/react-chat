@@ -79,7 +79,7 @@ const ChatMain = () => {
       }
 
       try {
-        const response = await fetch("http://chat-server-wc7r.onrender.com/images", {
+        const response = await fetch("https://chat-server-wc7r.onrender.com/images", {
           method: "POST",
           // headers: { "Content-Type": "multipart/form-data" },
           body: formData,

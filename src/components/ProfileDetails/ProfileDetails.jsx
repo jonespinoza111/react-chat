@@ -18,7 +18,7 @@ const ProfileDetails = ({ userInfo }) => {
     e.preventDefault();
     try {
       const response = await fetch(
-        `http://chat-server-wc7r.onrender.com/users/${userInfo.uid}`,
+        `https://chat-server-wc7r.onrender.com/users/${userInfo.uid}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
