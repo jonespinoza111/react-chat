@@ -34,7 +34,6 @@ const Login = () => {
       if (body.success) {
         localStorage.setItem("currentUser", body.authorization);
         checkAuthUser();
-        navigate("/home");
         navigate(0);
       }
     } catch (err) {
