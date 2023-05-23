@@ -15,6 +15,10 @@ This is chat application built with the MERN stack that allows users to send mes
 
 [ChatWithUs](chat-with-us.netlify.app)
 
+**Server Code:**
+
+[Chat-Server](https://github.com/jonespinoza111/chat-server)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
