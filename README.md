@@ -13,7 +13,7 @@ This is chat application built with the MERN stack that allows users to send mes
 
 **Visit site here:**
 
-[ChatWithUs](chat-with-us.netlify.app)
+[ChatWithUs](https://chat-with-us.netlify.app)
 
 **Server Code:**
 
