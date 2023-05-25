@@ -19,6 +19,11 @@ This is chat application built with the MERN stack that allows users to send mes
 
 [Chat-Server](https://github.com/jonespinoza111/chat-server)
 
+
+Test User Credentials:
+- Username: user1
+- Password: Password
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
