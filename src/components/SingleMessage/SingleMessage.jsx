@@ -23,7 +23,7 @@ const SingleMessage = ({
             <img
               key={index}
               className="attachment-img"
-              width={165}
+              width={245}
               height={180}
               src={`https://chat-server-wc7r.onrender.com${imagePath}`}
               alt="attachment from user"

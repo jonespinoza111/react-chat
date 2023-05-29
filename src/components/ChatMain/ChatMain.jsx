@@ -145,7 +145,7 @@ const ChatMain = () => {
     setTypingTimeout(
       setTimeout(() => {
         socket.emit("typingEnded", chatId, userInfo.uid);
-      }, 10000)
+      }, 1000)
     );
   };
 

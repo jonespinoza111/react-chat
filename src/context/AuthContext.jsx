@@ -44,7 +44,7 @@ const AuthProvider = ({ children }) => {
     socket.emit("offline", userInfo.uid);
     setIsUserLoggedIn(false);
     navigate("/");
-    navigate(0);
+    // navigate(0);
   };
 
   return (
