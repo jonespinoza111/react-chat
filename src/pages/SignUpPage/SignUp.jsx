@@ -17,6 +17,8 @@ const SignUp = () => {
   const [avatarPicked, setAvatarPicked] = useState(avatarOptions[0].src);
   const [currentSubForm, setCurrentSubForm] = useState(1);
 
+  const [errorMessage, setErrorMessage] = useState(null);
+
   const navigate = useNavigate();
   const { isUserLoggedIn } = useContext(AuthContext);
 
@@ -67,7 +69,7 @@ const SignUp = () => {
                     body: JSON.stringify({
                         userData: {
                             username: body.user.username,
-                            password: body.user.password,
+                            password,
                         },
                     }),
                 }
@@ -84,9 +86,11 @@ const SignUp = () => {
             } else {
                 navigate("/login");
             }
+        } else {
+            setErrorMessage(body.message);
         }
     } catch (err) {
-        console.log("There was an error creating a new user");
+        setErrorMessage("There was an error creating a new user");
     }
   };
 
@@ -102,6 +106,9 @@ const SignUp = () => {
                         {currentSubForm === 3 && "Choose an avatar"}
                     </h3>
                     <h4>Fill out the form.</h4>
+                    {errorMessage && (
+                        <span className='error-message'>{errorMessage}</span>
+                    )}
                     <form className="signup-form" onSubmit={submitSignup}>
                         <SubForm1 
                             currentSubForm={currentSubForm}
@@ -134,11 +141,22 @@ const SignUp = () => {
                                     Previous
                                 </button>
                             )}
-                            {currentSubForm < 3 && (
+                            {currentSubForm === 1 && (
                                 <button
                                     className="form-button signup-form-button"
                                     type="button"
                                     onClick={nextSubForm}
+                                    disabled={firstName === "" || lastName === "" || email === ""}
+                                >
+                                    Next
+                                </button>
+                            )}
+                            {currentSubForm === 2 && (
+                                <button
+                                    className="form-button signup-form-button"
+                                    type="button"
+                                    onClick={nextSubForm}
+                                    disabled={username === "" || password === ""}
                                 >
                                     Next
                                 </button>

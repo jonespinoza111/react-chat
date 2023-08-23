@@ -6,6 +6,8 @@ import "./Login.scss";
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const [errorMessage, setErrorMessage] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const { isUserLoggedIn, checkAuthUser } = useContext(AuthContext);
@@ -24,22 +26,53 @@ const Login = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           userData: {
-            username,
+            username: username.toLowerCase(),
             password,
           },
         }),
       });
+
+      const body = await response.json();
+
+      console.log('my big body ', body);
+
+      if (body.success) {
+        localStorage.setItem("currentUser", body.authorization);
+        checkAuthUser();
+      } else {
+        setErrorMessage(body.message);
+      }
+    } catch (err) {
+      setErrorMessage("There was an error loggin in");
+    }
+  };
+
+  const testAccountSignIn = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("https://chat-server-wc7r.onrender.com/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ 
+          userData: {
+            username: 'user1',
+            password: 'Password',
+          },
+        }),
+      });
+
       const body = await response.json();
 
       if (body.success) {
         localStorage.setItem("currentUser", body.authorization);
         checkAuthUser();
-        // navigate(0);
+      } else {
+        setErrorMessage(body.message);
       }
     } catch (err) {
-      console.log("There was an error loggin in", err);
+      setErrorMessage("There was an error loggin in");
     }
-  };
+  }
 
   return (
     <div className="page login-page">
@@ -48,6 +81,9 @@ const Login = () => {
           <div className="login-form-container form-container">
             <h3>Welcome back</h3>
             <h4>Welcome back! Please enter your details.</h4>
+            {errorMessage && (
+              <span className="error-message">{errorMessage}</span>
+            )}
             <form className="login-form" onSubmit={submitLogin}>
               <div className="form-input-container">
                 <label htmlFor="username">Username</label>
@@ -77,6 +113,11 @@ const Login = () => {
               <div className="form-button-container">
                 <button className="form-button login-form-button" type="submit">
                   Sign In
+                </button>
+              </div>
+              <div className="form-button-container">
+                <button className="form-button test-account-button" onClick={testAccountSignIn}>
+                  Sign In with Test Account
                 </button>
               </div>
               <div className="request-sign-up">

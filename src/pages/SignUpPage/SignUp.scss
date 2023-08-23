@@ -18,11 +18,19 @@
         height: 100%;
         width: 50%;
         background-color: white;
+        .error-message {
+            color: rgb(195, 98, 98);
+            font-weight: bold;
+        }
         @include medium-screen {
             width: 100%;
             padding: 4em 0;
         }
         .form-button-container {
+            .signup-form-button:disabled {
+                background-color: #c2cfd4;
+                cursor: default;
+            }
             .previous-button {
                 background-color: #9593BB;
                 &:hover {

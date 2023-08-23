@@ -25,6 +25,13 @@
         .login-form {
             height: auto;
         }
+        .error-message {
+            color: rgb(195, 98, 98);
+            font-weight: bold;
+        }
+        .test-account-button {
+            background-color: rgb(119, 195, 119);
+        }
     }
     .right-side {
         display: flex;
@@ -50,3 +57,4 @@
         width: 16px;
     }
 }
+
